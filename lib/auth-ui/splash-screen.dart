@@ -1,13 +1,25 @@
-// ignore_for_file: file_names
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:youcollection/utils/app-constant.dart';
+import '../user-panel/main_screen.dart';
+import '../utils/app-constant.dart';
 
-class Splashscreen extends StatelessWidget {
+// ✅ Corrected: StatefulWidget ko define kiya
+class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
+
+  @override
+  State<Splashscreen> createState() => _SplashscreenState();
+}
+
+class _SplashscreenState extends State<Splashscreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 3), () {
+      Get.offAll(() => MainScreen());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +29,33 @@ class Splashscreen extends StatelessWidget {
         backgroundColor: AppConstant.appMainColor,
         elevation: 0,
       ),
-      // ignore: avoid_unnecessary_containers
-      body: Container(
-        child: Column(
-          children: [
-            Container(
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              width: Get.width,
+              alignment: Alignment.center,
               child: Lottie.asset(
                 'assets/images/splash-icon.json',
                 repeat: true,
-                animate: true,
-                reverse: false,
-                options: LottieOptions(
-                    enableMergePaths: true), // Optional optimization
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 20.0),
+            width: Get.width,
+            alignment: Alignment.center,
+            child: Text(
+              AppConstant.appPoweredby,
+              style: TextStyle(
+                fontFamily: 'font1',
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: AppConstant.appTextColor,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
