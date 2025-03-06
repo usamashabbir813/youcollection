@@ -43,7 +43,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           fontFamily: 'font1', fontWeight: FontWeight.bold),
                     )
                   : Column(
-                      children: [Lottie.asset('assets/images/splash.json')],
+                      children: [Lottie.asset('assets/images/signin.json')],
                     ),
               SizedBox(
                 height: Get.height / 20,

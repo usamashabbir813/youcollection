@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, use_super_parameters
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class ComonTextField extends StatelessWidget {
@@ -36,8 +37,8 @@ class ComonTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 47,
-      width: 340,
+      height: Get.height / 15,
+      width: Get.width / 1.5,
       child: TextFormField(
         validator: validator,
         controller: controller,
