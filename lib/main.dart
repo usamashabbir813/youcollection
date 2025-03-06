@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:youcollection/auth-ui/sign-up-screen.dart';
+import 'package:youcollection/auth-ui/sign-in-screen.dart';
 
 // ignore: unused_import
 import 'user-panel/main_screen.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SignUpScreen(),
+      home: SigninScreen(),
     );
   }
 }
