@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youcollection/auth-ui/sign-in-screen.dart';
-import 'package:youcollection/auth-ui/splash-screen.dart';
+import 'package:youcollection/auth-ui/welcome-screen.dart';
 
 // ignore: unused_import
 import 'user-panel/main_screen.dart';

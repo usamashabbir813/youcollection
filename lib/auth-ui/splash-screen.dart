@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youcollection/auth-ui/welcome-screen.dart';
-import '../user-panel/main_screen.dart';
 import '../utils/app-constant.dart';
 
 // ✅ Corrected: StatefulWidget ko define kiya
@@ -39,7 +38,7 @@ class _SplashscreenState extends State<Splashscreen> {
               width: Get.width,
               alignment: Alignment.center,
               child: Lottie.asset(
-                'assets/images/splash-icon.json',
+                'assets/images/splash.json',
                 repeat: true,
               ),
             ),

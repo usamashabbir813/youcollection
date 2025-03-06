@@ -10,5 +10,5 @@ class AppConstant {
   static const appMainColor = Color.fromARGB(255, 243, 190, 85);
   static const Color appprimayaryColor = Colors.black;
   static const Color appTextColor = Colors.black;
-  static const Color appStausBarColor = Colors.white;
+  static const Color appStatusBarColor = Colors.white;
 }

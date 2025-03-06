@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:youcollection/Button/Google-container.dart';
+import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class WelCome extends StatelessWidget {
@@ -25,7 +27,7 @@ class WelCome extends StatelessWidget {
         children: [
           Container(
             color: AppConstant.appMainColor,
-            child: Lottie.asset('assets/images/splash-icon.json'),
+            child: Lottie.asset('assets/images/splash.json'),
           ),
           Container(
               margin: EdgeInsets.only(top: 20.0),
@@ -39,79 +41,12 @@ class WelCome extends StatelessWidget {
           SizedBox(
             height: Get.height / 12,
           ),
-          Material(
-            child: Container(
-              width: Get.width / 1.5,
-              height: Get.height / 15,
-              decoration: BoxDecoration(
-                color: AppConstant.appMainColor,
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2), // Shadow color
-                    spreadRadius: 1, // Spread radius
-                    blurRadius: 6, // Blur radius
-                    offset: Offset(0, 3), // Shadow position
-                  ),
-                ],
-              ),
-              child: TextButton.icon(
-                icon: Image.asset(
-                  'assets/images/google.png',
-                  width: Get.width / 12,
-                  height: Get.height / 12,
-                ),
-                label: Text(
-                  'Sign in with Google',
-                  style: TextStyle(
-                    fontFamily: 'font1',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: AppConstant.appTextColor,
-                  ),
-                ),
-                onPressed: () {},
-              ),
-            ),
-          ),
+          GoogleContainer(),
           SizedBox(
             height: Get.height / 50,
           ),
-          Material(
-            child: Container(
-              width: Get.width / 1.5,
-              height: Get.height / 15,
-              decoration: BoxDecoration(
-                color: AppConstant.appMainColor,
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black
-                        .withOpacity(0.2), // Shadow color with transparency
-                    spreadRadius: 1, // How much the shadow spreads
-                    blurRadius: 6, // Blur effect
-                    offset: Offset(0, 3), // Moves the shadow downward
-                  ),
-                ],
-              ),
-              child: TextButton.icon(
-                icon: Icon(
-                  Icons.email,
-                  color: AppConstant.appTextColor,
-                ),
-                label: Text(
-                  'Sign in with Email',
-                  style: TextStyle(
-                    fontFamily: 'font1',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: AppConstant.appTextColor,
-                  ),
-                ),
-                onPressed: () {},
-              ),
-            ),
-          ),
+          ComonButton(
+              title: 'Sign in with Email', icon: Icon(Icons.mail), onTap: () {})
         ],
       ),
     );
