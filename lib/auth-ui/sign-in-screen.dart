@@ -5,6 +5,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youcollection/Button/comon_button.dart';
+import 'package:youcollection/Fields/textformfield.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -15,6 +16,8 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  final TextEditingController emailcontroller = TextEditingController();
+  final TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
@@ -25,7 +28,7 @@ class _SigninScreenState extends State<SigninScreen> {
           title: Text(
             'Sign In',
             style: TextStyle(
-                fontFamily: 'font',
+                fontFamily: 'font1',
                 fontWeight: FontWeight.bold,
                 color: AppConstant.appTextColor),
           ),
@@ -49,37 +52,23 @@ class _SigninScreenState extends State<SigninScreen> {
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   width: Get.width,
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextFormField(
-                      cursorColor: AppConstant.appTextColor,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          hintText: 'Email',
-                          prefixIcon: Icon(Icons.email),
-                          contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          )),
-                    ),
-                  )),
+                      padding: const EdgeInsets.all(10.0),
+                      child: ComonTextField(
+                        hintText: 'Enter your Email',
+                        controller: emailcontroller,
+                        prefixIcon: Icon(Icons.mail),
+                      ))),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   width: Get.width,
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextFormField(
-                      cursorColor: AppConstant.appTextColor,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          hintText: 'Password',
-                          prefixIcon: Icon(Icons.password),
-                          suffixIcon: Icon(Icons.visibility_off),
-                          contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          )),
-                    ),
-                  )),
+                      padding: const EdgeInsets.all(10.0),
+                      child: ComonTextField(
+                        hintText: 'Enter your Password',
+                        controller: password,
+                        prefixIcon: Icon(Icons.password),
+                        suffixIcon: Icon(Icons.visibility_off),
+                      ))),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 15.0),
                 alignment: Alignment.centerRight,

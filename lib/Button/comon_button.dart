@@ -5,13 +5,13 @@ import 'package:youcollection/utils/app-constant.dart';
 class ComonButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-  final Widget? icon; // آئیکن کو optional بنایا
+  final Widget? icon; //   optional
 
   const ComonButton({
     super.key,
     required this.title,
     required this.onTap,
-    this.icon, // optional آئیکن
+    this.icon, // optional
   });
 
   @override
@@ -33,14 +33,14 @@ class ComonButton extends StatelessWidget {
               blurRadius: 6, // Blur effect
               offset: Offset(0, 3), // Moves the shadow downward
             ),
-          ], // تھوڑا بہتر UI کے لیے
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null) ...[
-              icon!, // اگر آئیکن دستیاب ہو تو دکھائیں
-              SizedBox(width: 8), // آئیکن اور ٹیکسٹ کے درمیان اسپیس
+              icon!,
+              SizedBox(width: 8),
             ],
             Text(
               title,
