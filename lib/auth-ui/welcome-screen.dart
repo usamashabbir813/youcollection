@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youcollection/Button/Google-container.dart';
 import 'package:youcollection/Button/comon_button.dart';
+import 'package:youcollection/auth-ui/sign-up-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class WelCome extends StatelessWidget {
@@ -46,7 +47,10 @@ class WelCome extends StatelessWidget {
             height: Get.height / 50,
           ),
           ComonButton(
-              title: 'Sign in with Email', icon: Icon(Icons.mail), onTap: () {})
+            title: 'Sign in with Email',
+            icon: Icon(Icons.mail),
+            onTap: () => Get.offAll(SignUpScreen()),
+          )
         ],
       ),
     );

@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: sort_child_properties_last, file_names
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

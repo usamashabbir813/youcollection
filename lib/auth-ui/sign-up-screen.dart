@@ -5,6 +5,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/Fields/textformfield.dart';
+import 'package:youcollection/auth-ui/sign-in-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController passwordcontroller = TextEditingController();
   final TextEditingController phonecontroller = TextEditingController();
   final TextEditingController usernamecontroller = TextEditingController();
+  final TextEditingController citycontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
@@ -39,20 +41,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Container(
             child: Column(
               children: [
-                SizedBox(
-                  height: Get.height / 20,
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Welcome my app',
-                    style: TextStyle(
-                        fontFamily: 'font1',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: AppConstant.appTextColor),
-                  ),
-                ),
+                isKeyboardVisible
+                    ? SizedBox(
+                        height: Get.height / 20,
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Welcome my app',
+                            style: TextStyle(
+                                fontFamily: 'font1',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                                color: AppConstant.appTextColor),
+                          ),
+                        ),
+                      ),
                 SizedBox(
                   height: Get.height / 20,
                 ),
@@ -98,6 +104,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           suffixIcon: Icon(Icons.visibility_off),
                         ))),
                 Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    width: Get.width,
+                    child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ComonTextField(
+                          hintText: 'Enter your City',
+                          controller: citycontroller,
+                          prefixIcon: Icon(Icons.location_pin),
+                        ))),
+                Container(
                   margin: EdgeInsets.symmetric(horizontal: 15.0),
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -128,12 +144,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       width: Get.width / 200,
                     ),
-                    Text(
-                      "Sign In",
-                      style: TextStyle(
-                          fontFamily: 'font1',
-                          fontWeight: FontWeight.bold,
-                          color: AppConstant.appTextColor),
+                    GestureDetector(
+                      onTap: () => Get.offAll(SigninScreen()),
+                      child: Text(
+                        " Sign In ",
+                        style: TextStyle(
+                            fontFamily: 'font1',
+                            fontWeight: FontWeight.bold,
+                            color: AppConstant.appTextColor),
+                      ),
                     ),
                   ],
                 )

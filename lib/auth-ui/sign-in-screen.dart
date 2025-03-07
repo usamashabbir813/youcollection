@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/Fields/textformfield.dart';
+import 'package:youcollection/auth-ui/sign-up-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -33,83 +34,89 @@ class _SigninScreenState extends State<SigninScreen> {
                 color: AppConstant.appTextColor),
           ),
         ),
-        body: Container(
-          child: Column(
-            children: [
-              isKeyboardVisible
-                  ? Text(
-                      'Welcome my app',
-                      style: TextStyle(
-                          fontFamily: 'font1', fontWeight: FontWeight.bold),
-                    )
-                  : Column(
-                      children: [Lottie.asset('assets/images/signin.json')],
-                    ),
-              SizedBox(
-                height: Get.height / 20,
-              ),
-              Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  width: Get.width,
-                  child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ComonTextField(
-                        hintText: 'Enter your Email',
-                        controller: emailcontroller,
-                        prefixIcon: Icon(Icons.mail),
-                      ))),
-              Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  width: Get.width,
-                  child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ComonTextField(
-                        hintText: 'Enter your Password',
-                        controller: password,
-                        prefixIcon: Icon(Icons.password),
-                        suffixIcon: Icon(Icons.visibility_off),
-                      ))),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15.0),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Forget Password ?',
-                  style: TextStyle(
-                      fontFamily: 'font1',
-                      fontWeight: FontWeight.bold,
-                      color: AppConstant.appMainColor),
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            child: Column(
+              children: [
+                isKeyboardVisible
+                    ? Text(
+                        'Welcome my app',
+                        style: TextStyle(
+                            fontFamily: 'font1', fontWeight: FontWeight.bold),
+                      )
+                    : Column(
+                        children: [Lottie.asset('assets/images/signin.json')],
+                      ),
+                SizedBox(
+                  height: Get.height / 20,
                 ),
-              ),
-              SizedBox(
-                height: Get.height / 20,
-              ),
-              ComonButton(title: 'Sign In ', onTap: () {}),
-              SizedBox(
-                height: Get.height / 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an acount ?",
-                    style: TextStyle(
-                        fontFamily: 'font1',
-                        fontWeight: FontWeight.w500,
-                        color: AppConstant.appMainColor),
-                  ),
-                  SizedBox(
-                    width: Get.width / 200,
-                  ),
-                  Text(
-                    "Sign Up",
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    width: Get.width,
+                    child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ComonTextField(
+                          hintText: 'Enter your Email',
+                          controller: emailcontroller,
+                          prefixIcon: Icon(Icons.mail),
+                        ))),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    width: Get.width,
+                    child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ComonTextField(
+                          hintText: 'Enter your Password',
+                          controller: password,
+                          prefixIcon: Icon(Icons.password),
+                          suffixIcon: Icon(Icons.visibility_off),
+                        ))),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15.0),
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Forget Password ?',
                     style: TextStyle(
                         fontFamily: 'font1',
                         fontWeight: FontWeight.bold,
-                        color: AppConstant.appTextColor),
+                        color: AppConstant.appMainColor),
                   ),
-                ],
-              )
-            ],
+                ),
+                SizedBox(
+                  height: Get.height / 20,
+                ),
+                ComonButton(title: 'Sign In ', onTap: () {}),
+                SizedBox(
+                  height: Get.height / 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an acount ?",
+                      style: TextStyle(
+                          fontFamily: 'font1',
+                          fontWeight: FontWeight.w500,
+                          color: AppConstant.appMainColor),
+                    ),
+                    SizedBox(
+                      width: Get.width / 200,
+                    ),
+                    GestureDetector(
+                      onTap: () => Get.offAll(SignUpScreen()),
+                      child: Text(
+                        " Sign Up ",
+                        style: TextStyle(
+                            fontFamily: 'font1',
+                            fontWeight: FontWeight.bold,
+                            color: AppConstant.appTextColor),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       );
