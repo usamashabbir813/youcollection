@@ -40,10 +40,13 @@ class _SigninScreenState extends State<SigninScreen> {
             child: Column(
               children: [
                 isKeyboardVisible
-                    ? Text(
-                        'Welcome my app',
-                        style: TextStyle(
-                            fontFamily: 'font1', fontWeight: FontWeight.bold),
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          'Welcome my app',
+                          style: TextStyle(
+                              fontFamily: 'font1', fontWeight: FontWeight.bold),
+                        ),
                       )
                     : Column(
                         children: [Lottie.asset('assets/images/signin.json')],
