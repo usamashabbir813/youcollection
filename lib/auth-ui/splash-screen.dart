@@ -1,7 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import '../user-panel/main_screen.dart';
+import 'package:youcollection/auth-ui/welcome-screen.dart';
 import '../utils/app-constant.dart';
 
 // ✅ Corrected: StatefulWidget ko define kiya
@@ -16,8 +18,8 @@ class _SplashscreenState extends State<Splashscreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
-      Get.offAll(() => MainScreen());
+    Future.delayed(Duration(seconds: 6), () {
+      Get.offAll(() => WelCome());
     });
   }
 
@@ -36,7 +38,7 @@ class _SplashscreenState extends State<Splashscreen> {
               width: Get.width,
               alignment: Alignment.center,
               child: Lottie.asset(
-                'assets/images/splash-icon.json',
+                'assets/images/splash.json',
                 repeat: true,
               ),
             ),
