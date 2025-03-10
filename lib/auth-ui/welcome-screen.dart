@@ -14,6 +14,7 @@ class WelCome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppConstant.backgroundColor,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,

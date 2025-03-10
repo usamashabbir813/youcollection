@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "640347788437",
+    "project_id": "youcollection-45715",
+    "storage_bucket": "youcollection-45715.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640347788437:android:ad37251f76ab295953f79c",
+        "android_client_info": {
+          "package_name": "com.example.youcollection"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDyKRL02k5Y1Pxshvb9K5UXJij-m-1HDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

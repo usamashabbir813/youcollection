@@ -25,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
       return Scaffold(
+        backgroundColor: AppConstant.backgroundColor,
         appBar: AppBar(
           backgroundColor: AppConstant.appMainColor,
           centerTitle: true,
