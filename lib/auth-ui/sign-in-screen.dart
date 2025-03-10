@@ -63,7 +63,10 @@ class _SigninScreenState extends State<SigninScreen> {
                         child: ComonTextField(
                           hintText: 'Enter your Email',
                           controller: emailcontroller,
-                          prefixIcon: Icon(Icons.mail),
+                          prefixIcon: Icon(
+                            Icons.mail,
+                            color: AppConstant.appblackColor,
+                          ),
                         ))),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -73,8 +76,14 @@ class _SigninScreenState extends State<SigninScreen> {
                         child: ComonTextField(
                           hintText: 'Enter your Password',
                           controller: password,
-                          prefixIcon: Icon(Icons.password),
-                          suffixIcon: Icon(Icons.visibility_off),
+                          prefixIcon: Icon(
+                            Icons.password,
+                            color: AppConstant.appblackColor,
+                          ),
+                          suffixIcon: Icon(
+                            Icons.visibility_off,
+                            color: AppConstant.appblackColor,
+                          ),
                         ))),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15.0),

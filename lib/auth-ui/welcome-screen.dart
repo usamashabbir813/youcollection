@@ -49,7 +49,10 @@ class WelCome extends StatelessWidget {
           ),
           ComonButton(
             title: 'Sign in with Email',
-            icon: Icon(Icons.mail),
+            icon: Icon(
+              Icons.mail,
+              color: AppConstant.appblackColor,
+            ),
             onTap: () => Get.offAll(SignUpScreen()),
           )
         ],

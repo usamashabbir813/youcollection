@@ -71,7 +71,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: ComonTextField(
                           hintText: 'Enter your UserName',
                           controller: usernamecontroller,
-                          prefixIcon: Icon(Icons.person_2),
+                          prefixIcon: Icon(
+                            Icons.person_2,
+                            color: AppConstant.appblackColor,
+                          ),
                         ))),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -81,7 +84,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: ComonTextField(
                           hintText: 'Enter your Email',
                           controller: emailcontroller,
-                          prefixIcon: Icon(Icons.mail),
+                          prefixIcon: Icon(
+                            Icons.mail,
+                            color: AppConstant.appblackColor,
+                          ),
                         ))),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -91,7 +97,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: ComonTextField(
                           hintText: 'Enter your Phone',
                           controller: phonecontroller,
-                          prefixIcon: Icon(Icons.phone),
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            color: AppConstant.appblackColor,
+                          ),
                         ))),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -101,8 +110,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: ComonTextField(
                           hintText: 'Enter your Password',
                           controller: passwordcontroller,
-                          prefixIcon: Icon(Icons.password),
-                          suffixIcon: Icon(Icons.visibility_off),
+                          prefixIcon: Icon(
+                            Icons.password,
+                            color: AppConstant.appblackColor,
+                          ),
+                          suffixIcon: Icon(
+                            Icons.visibility_off,
+                            color: AppConstant.appblackColor,
+                          ),
                         ))),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -112,7 +127,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: ComonTextField(
                           hintText: 'Enter your City',
                           controller: citycontroller,
-                          prefixIcon: Icon(Icons.location_pin),
+                          prefixIcon: Icon(
+                            Icons.location_pin,
+                            color: AppConstant.appblackColor,
+                          ),
                         ))),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15.0),
