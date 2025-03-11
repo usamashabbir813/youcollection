@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:youcollection/auth-ui/welcome-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class MainScreen extends StatelessWidget {
@@ -14,6 +17,19 @@ class MainScreen extends StatelessWidget {
           style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
         centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () async {
+              GoogleSignIn googleSignIn = GoogleSignIn();
+              await googleSignIn.signOut();
+              Get.offAll(() => WelCome());
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(Icons.logout),
+            ),
+          )
+        ],
       ),
     );
   }

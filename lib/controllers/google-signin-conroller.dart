@@ -17,7 +17,9 @@ class GoogleSigninConroller extends GetxController {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignin.signIn();
       if (googleSignInAccount != null) {
-        EasyLoading.show(status: "Please wait...");
+        EasyLoading.show(
+          status: "Please wait...",
+        );
         GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
 
