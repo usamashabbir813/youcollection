@@ -5,12 +5,13 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youcollection/Button/Google-container.dart';
 import 'package:youcollection/Button/comon_button.dart';
-import 'package:youcollection/auth-ui/sign-up-screen.dart';
+import 'package:youcollection/controllers/google-signin-conroller.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 class WelCome extends StatelessWidget {
-  const WelCome({super.key});
-
+  WelCome({super.key});
+  final GoogleSigninConroller _googleSigninConroller =
+      Get.put(GoogleSigninConroller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,17 +44,23 @@ class WelCome extends StatelessWidget {
           SizedBox(
             height: Get.height / 12,
           ),
-          GoogleContainer(),
+          GestureDetector(
+              onTap: () {
+                _googleSigninConroller.signInWithGoogle();
+              },
+              child: GoogleContainer()),
           SizedBox(
             height: Get.height / 50,
           ),
-          ComonButton(
-            title: 'Sign in with Email',
-            icon: Icon(
-              Icons.mail,
-              color: AppConstant.appblackColor,
-            ),
-            onTap: () => Get.offAll(SignUpScreen()),
+          GestureDetector(
+            onTap: () {},
+            child: ComonButton(
+                title: 'Sign in with Email',
+                icon: Icon(
+                  Icons.mail,
+                  color: AppConstant.appblackColor,
+                ),
+                onTap: () {}),
           )
         ],
       ),

@@ -1,7 +1,8 @@
-// ignore_for_file: file_names, unused_field, unused_local_variable
+// ignore_for_file: file_names, unused_field, unused_local_variable, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:youcollection/models/user-model.dart';
@@ -16,6 +17,7 @@ class GoogleSigninConroller extends GetxController {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignin.signIn();
       if (googleSignInAccount != null) {
+        EasyLoading.show(status: "Please wait...");
         GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
 
@@ -45,10 +47,12 @@ class GoogleSigninConroller extends GetxController {
               .collection('users')
               .doc(user.uid)
               .set(userModel.toMap());
+          EasyLoading.dismiss();
           Get.offAll(() => MainScreen());
         }
       }
     } catch (e) {
+      EasyLoading.dismiss();
       print('Error $e');
     }
   }
