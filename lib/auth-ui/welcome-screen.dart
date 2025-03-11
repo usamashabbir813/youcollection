@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youcollection/Button/Google-container.dart';
 import 'package:youcollection/Button/comon_button.dart';
+import 'package:youcollection/auth-ui/sign-in-screen.dart';
 import 'package:youcollection/controllers/google-signin-conroller.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
@@ -53,14 +54,15 @@ class WelCome extends StatelessWidget {
             height: Get.height / 50,
           ),
           GestureDetector(
-            onTap: () {},
             child: ComonButton(
                 title: 'Sign in with Email',
                 icon: Icon(
                   Icons.mail,
                   color: AppConstant.appblackColor,
                 ),
-                onTap: () {}),
+                onTap: () {
+                  Get.to(() => SigninScreen());
+                }),
           )
         ],
       ),
