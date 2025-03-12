@@ -187,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           "please enter all details",
                           snackPosition: SnackPosition.BOTTOM,
                           backgroundColor: AppConstant.appMainColor,
-                          colorText: AppConstant.white,
+                          colorText: AppConstant.appTextColor,
                         );
                       } else {
                         UserCredential? userCredential =
@@ -198,7 +198,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               "please check your email.",
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: AppConstant.appMainColor,
-                              colorText: AppConstant.white);
+                              colorText: AppConstant.appTextColor);
                         }
 
                         FirebaseAuth.instance.signOut();
