@@ -1,5 +1,9 @@
-// ignore_for_file: file_names, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
+// ignore_for_file: file_names, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unused_import, unused_local_variable, unused_label
 
+import 'dart:ffi';
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
@@ -7,6 +11,8 @@ import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/Fields/textformfield.dart';
 import 'package:youcollection/auth-ui/sign-in-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
+
+import '../controllers/sign-up-controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,11 +22,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController emailcontroller = TextEditingController();
-  final TextEditingController passwordcontroller = TextEditingController();
-  final TextEditingController phonecontroller = TextEditingController();
-  final TextEditingController usernamecontroller = TextEditingController();
-  final TextEditingController citycontroller = TextEditingController();
+  final SignUpController signUpController = Get.put(SignUpController());
+  TextEditingController username = TextEditingController();
+  TextEditingController userEmail = TextEditingController();
+  TextEditingController userPhone = TextEditingController();
+  TextEditingController userCity = TextEditingController();
+  TextEditingController userPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
@@ -70,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         padding: const EdgeInsets.all(10.0),
                         child: ComonTextField(
                           hintText: 'Enter your UserName',
-                          controller: usernamecontroller,
+                          controller: username,
                           prefixIcon: Icon(
                             Icons.person_2,
                             color: AppConstant.appblackColor,
@@ -83,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         padding: const EdgeInsets.all(10.0),
                         child: ComonTextField(
                           hintText: 'Enter your Email',
-                          controller: emailcontroller,
+                          controller: userEmail,
                           prefixIcon: Icon(
                             Icons.mail,
                             color: AppConstant.appblackColor,
@@ -96,29 +104,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         padding: const EdgeInsets.all(10.0),
                         child: ComonTextField(
                           hintText: 'Enter your Phone',
-                          controller: phonecontroller,
+                          controller: userPhone,
                           prefixIcon: Icon(
                             Icons.phone,
                             color: AppConstant.appblackColor,
                           ),
                         ))),
                 Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: Get.width,
-                    child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: ComonTextField(
-                          hintText: 'Enter your Password',
-                          controller: passwordcontroller,
-                          prefixIcon: Icon(
-                            Icons.password,
-                            color: AppConstant.appblackColor,
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  width: Get.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Obx(
+                      () => TextFormField(
+                        controller: userPassword,
+                        obscureText: signUpController.isPasswordVisible.value,
+                        cursorColor: AppConstant.appMainColor,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          hintText: "Enter your Password",
+                          prefixIcon: Icon(Icons.password),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              signUpController.isPasswordVisible.toggle();
+                            },
+                            child: signUpController.isPasswordVisible.value
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
                           ),
-                          suffixIcon: Icon(
-                            Icons.visibility_off,
-                            color: AppConstant.appblackColor,
+                          contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                        ))),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
                     width: Get.width,
@@ -126,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         padding: const EdgeInsets.all(10.0),
                         child: ComonTextField(
                           hintText: 'Enter your City',
-                          controller: citycontroller,
+                          controller: userCity,
                           prefixIcon: Icon(
                             Icons.location_pin,
                             color: AppConstant.appblackColor,
@@ -146,7 +168,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: Get.height / 20,
                 ),
-                ComonButton(title: 'Sign Up ', onTap: () {}),
+                ComonButton(
+                    title: 'Sign Up ',
+                    onTap: () async {
+                      String name = username.text.trim();
+                      String email = userEmail.text.trim();
+                      String phone = userPhone.text.trim();
+                      String city = userCity.text.trim();
+                      String password = userPassword.text.trim();
+                      String userDeviceToken = "";
+                      if (name.isEmpty ||
+                          email.isEmpty ||
+                          phone.isEmpty ||
+                          city.isEmpty ||
+                          password.isEmpty) {
+                        Get.snackbar(
+                          'Error',
+                          "please enter all details",
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: AppConstant.appMainColor,
+                          colorText: AppConstant.white,
+                        );
+                      } else {
+                        UserCredential? userCredential =
+                            await signUpController.signUpMethod(name, email,
+                                phone, city, password, userDeviceToken);
+                        if (userCredential != null) {
+                          Get.snackbar('Verification email sent.',
+                              "please check your email.",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: AppConstant.appMainColor,
+                              colorText: AppConstant.white);
+                        }
+
+                        FirebaseAuth.instance.signOut();
+                        Get.offAll(() => SigninScreen());
+                      }
+                    }),
                 SizedBox(
                   height: Get.height / 20,
                 ),

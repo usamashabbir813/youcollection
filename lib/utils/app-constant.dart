@@ -14,4 +14,6 @@ class AppConstant {
   static const Color grey = Colors.grey;
   static const Color backgroundColor = Colors.white;
   static const Color appblackColor = Colors.black;
+  static const Color appRedColor = Colors.red;
+  static const Color appgreenColor = Colors.green;
 }
