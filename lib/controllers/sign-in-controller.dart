@@ -18,7 +18,7 @@ class SignInController extends GetxController {
   Future<UserCredential?> signInMethod(
       String userEmail, String userPassword) async {
     try {
-      EasyLoading.show(status: "Please wait");
+      EasyLoading.show(status: "Please wait...");
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: userEmail,
         password: userPassword,

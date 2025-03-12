@@ -169,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: Get.height / 20,
                 ),
                 ComonButton(
-                    title: 'Sign Up ',
+                    title: 'SIGN UP ',
                     onTap: () async {
                       String name = username.text.trim();
                       String email = userEmail.text.trim();
