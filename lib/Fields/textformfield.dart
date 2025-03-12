@@ -21,7 +21,7 @@ class ComonTextField extends StatelessWidget {
   const ComonTextField({
     required this.hintText,
     required this.controller,
-    this.keyboardType = TextInputType.text,
+    this.keyboardType = TextInputType.visiblePassword,
     this.textInputAction = TextInputAction.done,
     this.onChanged,
     this.onSubmitted,
@@ -31,6 +31,7 @@ class ComonTextField extends StatelessWidget {
     this.readOnly = false, // Default is false, but can be changed
     Key? key,
     this.validator,
+
     // required TextStyle textStyle,
   }) : super(key: key);
 
@@ -42,6 +43,7 @@ class ComonTextField extends StatelessWidget {
       child: TextFormField(
         validator: validator,
         controller: controller,
+
         keyboardType: keyboardType,
         textInputAction: textInputAction,
         onChanged: onChanged,
