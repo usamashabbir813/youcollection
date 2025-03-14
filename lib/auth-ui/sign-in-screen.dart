@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/Fields/textformfield.dart';
+import 'package:youcollection/auth-ui/forget-password-screen.dart';
 import 'package:youcollection/auth-ui/sign-up-screen.dart';
 import 'package:youcollection/controllers/sign-in-controller.dart';
 import 'package:youcollection/user-panel/main_screen.dart';
@@ -106,12 +107,17 @@ class _SigninScreenState extends State<SigninScreen> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15.0),
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forget Password ?',
-                    style: TextStyle(
-                        fontFamily: 'font1',
-                        fontWeight: FontWeight.bold,
-                        color: AppConstant.appMainColor),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(() => ForgetPasswordScreen());
+                    },
+                    child: Text(
+                      'Forget Password ?',
+                      style: TextStyle(
+                          fontFamily: 'font1',
+                          fontWeight: FontWeight.bold,
+                          color: AppConstant.appMainColor),
+                    ),
                   ),
                 ),
                 SizedBox(
