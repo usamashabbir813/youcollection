@@ -118,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Obx(
                       () => TextFormField(
                         controller: userPassword,
-                        obscureText: signUpController.isPasswordVisible.value,
+                        obscureText: !signUpController.isPasswordVisible.value,
                         cursorColor: AppConstant.appMainColor,
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
@@ -129,8 +129,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               signUpController.isPasswordVisible.toggle();
                             },
                             child: signUpController.isPasswordVisible.value
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
                           ),
                           contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                           border: OutlineInputBorder(
