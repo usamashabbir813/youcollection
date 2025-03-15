@@ -12,8 +12,8 @@ import 'package:youcollection/utils/app-constant.dart';
 
 class WelCome extends StatelessWidget {
   WelCome({super.key});
-  final GoogleSigninConroller _googleSigninConroller =
-      Get.put(GoogleSigninConroller());
+  final GoogleSignInController _googleSigninConroller =
+      Get.put(GoogleSignInController());
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
