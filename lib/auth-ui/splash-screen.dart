@@ -1,9 +1,13 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_local_variable, use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:youcollection/admin-panel/admin-main-screen.dart';
 import 'package:youcollection/auth-ui/welcome-screen.dart';
+import 'package:youcollection/controllers/get-user-data-controller.dart';
+import 'package:youcollection/user-panel/main_screen.dart';
 import '../utils/app-constant.dart';
 
 // ✅ Corrected: StatefulWidget ko define kiya
@@ -15,12 +19,28 @@ class Splashscreen extends StatefulWidget {
 }
 
 class _SplashscreenState extends State<Splashscreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 6), () {
-      Get.offAll(() => WelCome());
+      loggdin(context);
     });
+  }
+
+  Future<void> loggdin(BuildContext context) async {
+    if (user != null) {
+      final GetUserDataController getUserDataController =
+          Get.put(GetUserDataController());
+      var userData = await getUserDataController.getUserData(user!.uid);
+      if (userData[0]['isAdmin'] == true) {
+        Get.to(() => AdminMainScreen());
+      } else {
+        Get.offAll(() => MainScreen());
+      }
+    } else {
+      Get.to(() => WelCome());
+    }
   }
 
   @override
