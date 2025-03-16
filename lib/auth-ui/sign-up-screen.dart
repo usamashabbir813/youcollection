@@ -13,6 +13,7 @@ import 'package:youcollection/auth-ui/sign-in-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
 import '../controllers/sign-up-controller.dart';
+import '../utils/app-icons-constant.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -80,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: 'Enter your UserName',
                           controller: username,
                           prefixIcon: Icon(
-                            Icons.person_2,
+                            AppIcon.person,
                             color: AppConstant.appblackColor,
                           ),
                         ))),
@@ -93,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: 'Enter your Email',
                           controller: userEmail,
                           prefixIcon: Icon(
-                            Icons.mail,
+                            AppIcon.email,
                             color: AppConstant.appblackColor,
                           ),
                         ))),
@@ -106,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: 'Enter your Phone',
                           controller: userPhone,
                           prefixIcon: Icon(
-                            Icons.phone,
+                            AppIcon.phone,
                             color: AppConstant.appblackColor,
                           ),
                         ))),
@@ -123,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
                           hintText: "Enter your Password",
-                          prefixIcon: Icon(Icons.password),
+                          prefixIcon: Icon(AppIcon.password),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               signUpController.isPasswordVisible.toggle();

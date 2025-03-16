@@ -10,6 +10,8 @@ import 'package:youcollection/auth-ui/sign-in-screen.dart';
 import 'package:youcollection/controllers/google-signin-conroller.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
+import '../utils/app-icons-constant.dart';
+
 class WelCome extends StatelessWidget {
   WelCome({super.key});
   final GoogleSignInController _googleSigninConroller =
@@ -62,7 +64,7 @@ class WelCome extends StatelessWidget {
               child: ComonButton(
                   title: 'Sign in with Email',
                   icon: Icon(
-                    Icons.mail,
+                    AppIcon.email,
                     color: AppConstant.appblackColor,
                   ),
                   onTap: () {

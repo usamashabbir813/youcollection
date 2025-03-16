@@ -13,6 +13,7 @@ import 'package:youcollection/auth-ui/sign-up-screen.dart';
 import 'package:youcollection/controllers/sign-in-controller.dart';
 import 'package:youcollection/user-panel/main_screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
+import 'package:youcollection/utils/app-icons-constant.dart';
 import '../controllers/get-user-data-controller.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -76,7 +77,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       hintText: 'Enter your Email',
                       controller: useremail,
                       prefixIcon:
-                          Icon(Icons.mail, color: AppConstant.appblackColor),
+                          Icon(AppIcon.email, color: AppConstant.appblackColor),
                     ),
                   ),
                 ),
@@ -95,7 +96,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
                           hintText: "Enter your Password",
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: Icon(AppIcon.lock),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               signInController.isPasswordVisible.toggle();
