@@ -78,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: ComonTextField(
-                          hintText: 'Enter your UserName',
+                          hintText: 'Enter your Name',
                           controller: username,
                           prefixIcon: Icon(
                             AppIcon.person,
