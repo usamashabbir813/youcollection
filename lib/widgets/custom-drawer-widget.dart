@@ -93,7 +93,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
                 leading: Icon(
                   AppIcon.home,
-                  color: AppConstant.appTextColor,
+                  color: AppConstant.appblackColor,
                 ),
                 trailing: Icon(AppIcon.arrow),
               ),

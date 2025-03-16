@@ -151,21 +151,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: 'Enter your City',
                           controller: userCity,
                           prefixIcon: Icon(
-                            Icons.location_pin,
+                            AppIcon.location,
                             color: AppConstant.appblackColor,
                           ),
                         ))),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15.0),
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forget Password ?',
-                    style: TextStyle(
-                        fontFamily: 'font1',
-                        fontWeight: FontWeight.bold,
-                        color: AppConstant.appMainColor),
-                  ),
-                ),
                 SizedBox(
                   height: Get.height / 20,
                 ),

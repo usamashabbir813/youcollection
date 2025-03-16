@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/Fields/textformfield.dart';
 import 'package:youcollection/utils/app-constant.dart';
+import 'package:youcollection/utils/app-icons-constant.dart';
 import '../controllers/forget-password-controller.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -68,7 +69,7 @@ class _SigninScreenState extends State<ForgetPasswordScreen> {
                           hintText: 'Enter your Email',
                           controller: userEmail,
                           prefixIcon: Icon(
-                            Icons.mail,
+                            AppIcon.email,
                             color: AppConstant.appblackColor,
                           ),
                         ))),
