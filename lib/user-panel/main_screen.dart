@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:youcollection/auth-ui/welcome-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
 import 'package:youcollection/widgets/banner-widget.dart';
+import 'package:youcollection/widgets/category-widget.dart';
 import 'package:youcollection/widgets/custom-drawer-widget.dart';
 import 'package:youcollection/widgets/heading-widget.dart';
 
@@ -43,6 +44,8 @@ class MainScreen extends StatelessWidget {
                   headingSubTitle: 'According to your budget',
                   onTap: () {},
                   buttonText: 'See More >'),
+              //category
+              CategoryWidget(),
               //heading
               HeadingWidget(
                   headingTitle: 'Flash Sale',
