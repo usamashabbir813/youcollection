@@ -8,6 +8,7 @@ import 'package:youcollection/auth-ui/welcome-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
 import 'package:youcollection/widgets/banner-widget.dart';
 import 'package:youcollection/widgets/custom-drawer-widget.dart';
+import 'package:youcollection/widgets/heading-widget.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -34,7 +35,20 @@ class MainScreen extends StatelessWidget {
               SizedBox(
                 height: Get.height / 90.0,
               ),
+              //banners
               BannerWidget(),
+              //heading
+              HeadingWidget(
+                  headingTitle: 'Categories',
+                  headingSubTitle: 'According to your budget',
+                  onTap: () {},
+                  buttonText: 'See More >'),
+              //heading
+              HeadingWidget(
+                  headingTitle: 'Flash Sale',
+                  headingSubTitle: 'According to your budget',
+                  onTap: () {},
+                  buttonText: 'See More >'),
             ],
           ),
         ),
