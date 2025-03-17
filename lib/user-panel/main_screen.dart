@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_import
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_import, avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:youcollection/auth-ui/welcome-screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
+import 'package:youcollection/widgets/banner-widget.dart';
 import 'package:youcollection/widgets/custom-drawer-widget.dart';
 
 class MainScreen extends StatelessWidget {
@@ -25,6 +26,19 @@ class MainScreen extends StatelessWidget {
         centerTitle: true,
       ),
       drawer: DrawerWidget(),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: Get.height / 90.0,
+              ),
+              BannerWidget(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

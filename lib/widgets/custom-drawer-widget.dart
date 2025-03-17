@@ -42,7 +42,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'font1',
+                    fontFamily: 'font',
                     color: AppConstant.appTextColor,
                   ),
                 ),
@@ -63,7 +63,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'font1',
+                      fontFamily: 'font',
                       color: AppConstant.appTextColor,
                     ),
                   ),
