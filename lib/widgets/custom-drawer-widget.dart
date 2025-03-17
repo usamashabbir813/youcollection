@@ -40,9 +40,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 title: Text(
                   'You.Collection',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'font1',
+                    fontFamily: 'font',
                     color: AppConstant.appTextColor,
                   ),
                 ),
@@ -61,9 +61,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   child: Text(
                     'U',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'font1',
+                      fontFamily: 'font',
                       color: AppConstant.appTextColor,
                     ),
                   ),
@@ -149,7 +149,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text(
-                  'Contacts',
+                  'Contact',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
