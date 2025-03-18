@@ -57,7 +57,7 @@ class CategoryWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(5.0),
                 child: FillImageCard(
                   borderRadius: 20.0,
-                  width: Get.width / 4.0,
+                  width: Get.width / 3.5,
                   heightImage: Get.height / 12.0,
                   imageProvider:
                       CachedNetworkImageProvider(categoriesModel.categoryImg),
