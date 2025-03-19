@@ -47,7 +47,7 @@ class MainScreen extends StatelessWidget {
                   onTap: () => Get.to(() => AllCategoriesScreen()),
                   buttonText: 'See More >'),
               //category
-              CategoryWidget(),
+              CategoriesWidget(),
               //heading
               HeadingWidget(
                   headingTitle: 'Flash Sale',
