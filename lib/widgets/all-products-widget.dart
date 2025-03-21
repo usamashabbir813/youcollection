@@ -2,11 +2,14 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 
 import '../models/product-model.dart';
+
+import '../user-panel/product_details_screen.dart';
 
 class AllProductsWidget extends StatelessWidget {
   const AllProductsWidget({super.key});
@@ -76,26 +79,30 @@ class AllProductsWidget extends StatelessWidget {
               // );
               return Row(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Container(
-                      child: FillImageCard(
-                        borderRadius: 20.0,
-                        width: Get.width / 2.3,
-                        heightImage: Get.height / 6,
-                        imageProvider: CachedNetworkImageProvider(
-                          productModel.productImages[0],
-                        ),
-                        title: Center(
-                          child: Text(
-                            productModel.productName,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(fontSize: 12.0),
+                  GestureDetector(
+                    onTap: () => Get.to(
+                        () => ProductDetailsScreen(productModel: productModel)),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Container(
+                        child: FillImageCard(
+                          borderRadius: 20.0,
+                          width: Get.width / 2.3,
+                          heightImage: Get.height / 6,
+                          imageProvider: CachedNetworkImageProvider(
+                            productModel.productImages[0],
                           ),
-                        ),
-                        footer: Center(
-                          child: Text("PKR: " + productModel.fullPrice),
+                          title: Center(
+                            child: Text(
+                              productModel.productName,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(fontSize: 12.0),
+                            ),
+                          ),
+                          footer: Center(
+                            child: Text("PKR: " + productModel.fullPrice),
+                          ),
                         ),
                       ),
                     ),

@@ -7,7 +7,7 @@ class AppIcon {
   static const IconData product = Icons.production_quantity_limits;
   static const IconData shopping = Icons.shopping_bag;
   static const IconData help = Icons.help;
-  static const IconData privacy = Icons.privacy_tip;
+  static const IconData favourite = Icons.favorite_outline;
   static const IconData logout = Icons.logout_outlined;
   static const IconData password = Icons.password;
   static const IconData lock = Icons.lock;
