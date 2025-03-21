@@ -28,7 +28,10 @@ class _AllSingleCategoryProductsScreenState
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
-        title: Text('Products'),
+        title: Text(
+          'Products',
+          style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
+        ),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance

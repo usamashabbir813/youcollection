@@ -30,7 +30,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
         backgroundColor: AppConstant.appMainColor,
         title: Text(
           "All Categories",
-          style: TextStyle(color: AppConstant.appTextColor),
+          style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
       ),
       body: FutureBuilder(
