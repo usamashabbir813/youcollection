@@ -11,6 +11,7 @@ import 'package:image_card/image_card.dart';
 
 import '../models/product-model.dart';
 import '../utils/app-constant.dart';
+import 'product_details_screen.dart';
 
 class AllSingleCategoryProductsScreen extends StatefulWidget {
   String categoryId;
@@ -96,21 +97,25 @@ class _AllSingleCategoryProductsScreenState
                 // );
                 return Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Container(
-                        child: FillImageCard(
-                          borderRadius: 20.0,
-                          width: Get.width / 2.3,
-                          heightImage: Get.height / 10,
-                          imageProvider: CachedNetworkImageProvider(
-                            productModel.productImages[0],
-                          ),
-                          title: Center(
-                            child: Text(
-                              productModel.productName,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 12.0),
+                    GestureDetector(
+                      onTap: () => Get.to(() =>
+                          ProductDetailsScreen(productModel: productModel)),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Container(
+                          child: FillImageCard(
+                            borderRadius: 20.0,
+                            width: Get.width / 2.3,
+                            heightImage: Get.height / 10,
+                            imageProvider: CachedNetworkImageProvider(
+                              productModel.productImages[0],
+                            ),
+                            title: Center(
+                              child: Text(
+                                productModel.productName,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 12.0),
+                              ),
                             ),
                           ),
                         ),

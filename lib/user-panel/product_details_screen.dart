@@ -79,13 +79,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              widget.productModel.productName,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis, // Overflow
+                              maxLines: 2,
+                            ),
+                          ),
+                          Icon(AppIcon.favourite),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Container(
                           alignment: Alignment.topLeft,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(widget.productModel.productName),
-                              Icon(AppIcon.favourite)
+                              widget.productModel.isSale == true &&
+                                      widget.productModel.salePrice != ""
+                                  ? Text(
+                                      "PKR: " + widget.productModel.salePrice)
+                                  : Text(
+                                      "PKR: " + widget.productModel.fullPrice),
                             ],
                           )),
                     ),
@@ -93,14 +114,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           alignment: Alignment.topLeft,
-                          child: Text("PKR: " + widget.productModel.fullPrice)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          alignment: Alignment.topLeft,
                           child: Text(
-                              "Category: " + widget.productModel.categoryName)),
+                            "Category: " + widget.productModel.categoryName,
+                          )),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),

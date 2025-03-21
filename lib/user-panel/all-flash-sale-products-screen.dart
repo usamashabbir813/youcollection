@@ -11,6 +11,7 @@ import '../models/category-model.dart';
 import '../models/product-model.dart';
 import '../utils/app-constant.dart';
 import 'all-single-category-products-screen.dart';
+import 'product_details_screen.dart';
 
 class AllFlashSaleProductsScreen extends StatefulWidget {
   const AllFlashSaleProductsScreen({super.key});
@@ -98,8 +99,8 @@ class _AllFlashSaleProductsScreenState
                 return Row(
                   children: [
                     GestureDetector(
-                      // onTap: () => Get.to(() => AllSingleCategoryProductsScreen(
-                      //     categoryId: categoriesModel.categoryId)),
+                      onTap: () => Get.to(() =>
+                          ProductDetailsScreen(productModel: productModel)),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Container(
