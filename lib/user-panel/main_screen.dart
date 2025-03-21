@@ -8,7 +8,9 @@ import 'package:youcollection/auth-ui/welcome-screen.dart';
 import 'package:youcollection/user-panel/all-categories-screen.dart';
 import 'package:youcollection/user-panel/all-flash-sale-products-screen.dart';
 import 'package:youcollection/user-panel/all-products-screen.dart';
+import 'package:youcollection/user-panel/cart_screen.dart';
 import 'package:youcollection/utils/app-constant.dart';
+import 'package:youcollection/utils/app-icons-constant.dart';
 import 'package:youcollection/widgets/all-products-widget.dart';
 import 'package:youcollection/widgets/banner-widget.dart';
 import 'package:youcollection/widgets/category-widget.dart';
@@ -31,6 +33,15 @@ class MainScreen extends StatelessWidget {
           style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
         centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () => Get.to(() => CartScreen()),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(AppIcon.cart),
+            ),
+          )
+        ],
       ),
       drawer: DrawerWidget(),
       body: SingleChildScrollView(

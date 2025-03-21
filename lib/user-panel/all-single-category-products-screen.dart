@@ -29,6 +29,9 @@ class _AllSingleCategoryProductsScreenState
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
+        iconTheme: IconThemeData(
+          color: AppConstant.appTextColor,
+        ),
         title: Text(
           'Products',
           style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),

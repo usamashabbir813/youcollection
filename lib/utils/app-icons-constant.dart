@@ -12,7 +12,7 @@ class AppIcon {
   static const IconData password = Icons.password;
   static const IconData lock = Icons.lock;
   static const IconData error = Icons.error;
-  static const IconData warning = Icons.warning;
+  static const IconData cart = Icons.shopping_cart;
   static const IconData email = Icons.email;
   static const IconData person = Icons.person;
   static const IconData phone = Icons.phone;
