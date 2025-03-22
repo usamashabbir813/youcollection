@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors, sort_child_properties_last, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, sized_box_for_whitespace, avoid_print
+// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors, sort_child_properties_last, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, sized_box_for_whitespace, avoid_print, await_only_futures
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -120,28 +120,65 @@ class _CartScreenState extends State<CartScreen> {
                             SizedBox(
                               width: Get.width / 20.0,
                             ),
-                            CircleAvatar(
-                              child: Text(
-                                "-",
-                                style: TextStyle(
-                                    fontFamily: 'font1',
-                                    color: AppConstant.white),
+                            GestureDetector(
+                              onTap: () async {
+                                if (cartModel.productQuantity > 1) {
+                                  await FirebaseFirestore.instance
+                                      .collection("cart")
+                                      .doc(user!.uid)
+                                      .collection("cartOrder")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity - 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.fullPrice) *
+                                            (cartModel.productQuantity - 1))
+                                  });
+                                }
+                              },
+                              child: CircleAvatar(
+                                child: Text(
+                                  "-",
+                                  style: TextStyle(
+                                      fontFamily: 'font1',
+                                      color: AppConstant.white),
+                                ),
+                                backgroundColor: AppConstant.appRedColor,
+                                radius: 12.0,
                               ),
-                              backgroundColor: AppConstant.appRedColor,
-                              radius: 12.0,
                             ),
                             SizedBox(
                               width: Get.width / 20.0,
                             ),
-                            CircleAvatar(
-                              child: Text(
-                                "+",
-                                style: TextStyle(
-                                    fontFamily: 'font1',
-                                    color: AppConstant.white),
+                            GestureDetector(
+                              onTap: () async {
+                                if (cartModel.productQuantity > 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection("cart")
+                                      .doc(user!.uid)
+                                      .collection("cartOrder")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity + 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.fullPrice) +
+                                            double.parse(cartModel.fullPrice) *
+                                                (cartModel.productQuantity))
+                                  });
+                                }
+                              },
+                              child: CircleAvatar(
+                                child: Text(
+                                  "+",
+                                  style: TextStyle(
+                                      fontFamily: 'font1',
+                                      color: AppConstant.white),
+                                ),
+                                backgroundColor: AppConstant.appgreenColor,
+                                radius: 12.0,
                               ),
-                              backgroundColor: AppConstant.appgreenColor,
-                              radius: 12.0,
                             )
                           ],
                         ),
