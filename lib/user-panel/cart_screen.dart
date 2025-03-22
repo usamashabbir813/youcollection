@@ -11,6 +11,7 @@ import 'package:image_card/image_card.dart';
 import 'package:youcollection/Button/checkout_button.dart';
 import 'package:youcollection/models/cart_model.dart';
 
+import '../controllers/cart_price_controller.dart';
 import '../utils/app-constant.dart';
 
 class CartScreen extends StatefulWidget {
@@ -21,6 +22,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final ProductPriceController productPriceController =
+      Get.put(ProductPriceController());
   User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
@@ -86,6 +89,9 @@ class _CartScreenState extends State<CartScreen> {
                     productQuantity: productData["productQuantity"],
                     productTotalPrice: productData["productTotalPrice"],
                   );
+
+                  // calculate price
+                  productPriceController.fetchProductPrice();
                   return SwipeActionCell(
                     key: ObjectKey(cartModel.productId),
                     trailingActions: [
@@ -198,15 +204,15 @@ class _CartScreenState extends State<CartScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // SizedBox(
-            //   width: Get.width / 100.0,
-            // ),
-            Text(
-              "Totall PKR 12,00",
-              style: TextStyle(
-                  fontFamily: 'font1',
-                  color: AppConstant.appTextColor,
-                  fontWeight: FontWeight.bold),
+            Obx(
+              () => Text(
+                " Total Price:"
+                "${productPriceController.totalPrice.value.toStringAsFixed(1)}:PKR",
+                style: TextStyle(
+                    fontFamily: 'font1',
+                    color: AppConstant.appTextColor,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
