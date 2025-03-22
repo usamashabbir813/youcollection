@@ -27,6 +27,7 @@ class _AllSingleCategoryProductsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppConstant.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
         iconTheme: IconThemeData(
