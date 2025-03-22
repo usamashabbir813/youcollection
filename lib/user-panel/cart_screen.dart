@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors, sort_child_properties_last, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, sized_box_for_whitespace
+// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors, sort_child_properties_last, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, sized_box_for_whitespace, avoid_print
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:youcollection/Button/checkout_button.dart';
@@ -34,12 +35,12 @@ class _CartScreenState extends State<CartScreen> {
         ),
         centerTitle: true,
       ),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
             .collection('cart')
             .doc(user!.uid)
             .collection("cartOrder")
-            .get(),
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -85,47 +86,65 @@ class _CartScreenState extends State<CartScreen> {
                     productQuantity: productData["productQuantity"],
                     productTotalPrice: productData["productTotalPrice"],
                   );
-                  return Card(
-                    elevation: 5,
-                    color: AppConstant.white,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: AppConstant.appMainColor,
-                        backgroundImage:
-                            NetworkImage(cartModel.productImages[0]),
-                      ),
-                      title: Text(cartModel.productName),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(cartModel.productTotalPrice.toString()),
-                          SizedBox(
-                            width: Get.width / 20.0,
-                          ),
-                          CircleAvatar(
-                            child: Text(
-                              "-",
-                              style: TextStyle(
-                                  fontFamily: 'font1',
-                                  color: AppConstant.white),
+                  return SwipeActionCell(
+                    key: ObjectKey(cartModel.productId),
+                    trailingActions: [
+                      SwipeAction(
+                          title: "Delete",
+                          forceAlignmentToBoundary: true,
+                          performsFirstActionWithFullSwipe: true,
+                          onTap: (CompletionHandler handler) async {
+                            print("dleted");
+                            await FirebaseFirestore.instance
+                                .collection("cart")
+                                .doc(user!.uid)
+                                .collection("cartOrder")
+                                .doc(cartModel.productId)
+                                .delete();
+                          })
+                    ],
+                    child: Card(
+                      elevation: 5,
+                      color: AppConstant.white,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: AppConstant.appMainColor,
+                          backgroundImage:
+                              NetworkImage(cartModel.productImages[0]),
+                        ),
+                        title: Text(cartModel.productName),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(cartModel.productTotalPrice.toString()),
+                            SizedBox(
+                              width: Get.width / 20.0,
                             ),
-                            backgroundColor: AppConstant.appRedColor,
-                            radius: 12.0,
-                          ),
-                          SizedBox(
-                            width: Get.width / 20.0,
-                          ),
-                          CircleAvatar(
-                            child: Text(
-                              "+",
-                              style: TextStyle(
-                                  fontFamily: 'font1',
-                                  color: AppConstant.white),
+                            CircleAvatar(
+                              child: Text(
+                                "-",
+                                style: TextStyle(
+                                    fontFamily: 'font1',
+                                    color: AppConstant.white),
+                              ),
+                              backgroundColor: AppConstant.appRedColor,
+                              radius: 12.0,
                             ),
-                            backgroundColor: AppConstant.appgreenColor,
-                            radius: 12.0,
-                          )
-                        ],
+                            SizedBox(
+                              width: Get.width / 20.0,
+                            ),
+                            CircleAvatar(
+                              child: Text(
+                                "+",
+                                style: TextStyle(
+                                    fontFamily: 'font1',
+                                    color: AppConstant.white),
+                              ),
+                              backgroundColor: AppConstant.appgreenColor,
+                              radius: 12.0,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
