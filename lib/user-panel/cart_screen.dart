@@ -1,9 +1,14 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors, sort_child_properties_last, unnecessary_import
+// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_const_constructors, sort_child_properties_last, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, sized_box_for_whitespace
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_card/image_card.dart';
 import 'package:youcollection/Button/checkout_button.dart';
+import 'package:youcollection/models/cart_model.dart';
 
 import '../utils/app-constant.dart';
 
@@ -15,6 +20,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,87 +34,119 @@ class _CartScreenState extends State<CartScreen> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: 20,
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 5,
-              color: AppConstant.white,
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: AppConstant.appMainColor,
-                  child: Text(
-                    "U",
-                    style: TextStyle(
-                        fontFamily: 'font', color: AppConstant.appTextColor),
-                  ),
-                ),
-                title: Text(
-                  "New Dress for Womens",
-                  style: TextStyle(
-                      fontFamily: 'font1', color: AppConstant.appTextColor),
-                ),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "2200",
-                      style: TextStyle(
-                          fontFamily: 'font1', color: AppConstant.appTextColor),
-                    ),
-                    SizedBox(
-                      width: Get.width / 20.0,
-                    ),
-                    CircleAvatar(
-                      child: Text(
-                        "-",
-                        style: TextStyle(
-                            fontFamily: 'font1',
-                            color: AppConstant.appTextColor),
-                      ),
-                      backgroundColor: AppConstant.appMainColor,
-                      radius: 12.0,
-                    ),
-                    SizedBox(
-                      width: Get.width / 20.0,
-                    ),
-                    CircleAvatar(
-                      child: Text(
-                        "+",
-                        style: TextStyle(
-                            fontFamily: 'font1',
-                            color: AppConstant.appTextColor),
-                      ),
-                      backgroundColor: AppConstant.appMainColor,
-                      radius: 12.0,
-                    )
-                  ],
-                ),
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance
+            .collection('cart')
+            .doc(user!.uid)
+            .collection("cartOrder")
+            .get(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error"),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              height: Get.height / 5,
+              child: Center(
+                child: CupertinoActivityIndicator(),
               ),
             );
-          },
-        ),
+          }
+
+          if (snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text("No products found!"),
+            );
+          }
+
+          if (snapshot.data != null) {
+            return Container(
+              child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final productData = snapshot.data!.docs[index];
+                  CartModel cartModel = CartModel(
+                    productId: productData['productId'],
+                    categoryId: productData['categoryId'],
+                    productName: productData['productName'],
+                    categoryName: productData['categoryName'],
+                    salePrice: productData['salePrice'],
+                    fullPrice: productData['fullPrice'],
+                    productImages: productData['productImages'],
+                    deliveryTime: productData['deliveryTime'],
+                    isSale: productData['isSale'],
+                    productDescription: productData['productDescription'],
+                    createdAt: productData['createdAt'],
+                    updatedAt: productData['updatedAt'],
+                    productQuantity: productData["productQuantity"],
+                    productTotalPrice: productData["productTotalPrice"],
+                  );
+                  return Card(
+                    elevation: 5,
+                    color: AppConstant.white,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: AppConstant.appMainColor,
+                        backgroundImage:
+                            NetworkImage(cartModel.productImages[0]),
+                      ),
+                      title: Text(cartModel.productName),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(cartModel.productTotalPrice.toString()),
+                          SizedBox(
+                            width: Get.width / 20.0,
+                          ),
+                          CircleAvatar(
+                            child: Text(
+                              "-",
+                              style: TextStyle(
+                                  fontFamily: 'font1',
+                                  color: AppConstant.white),
+                            ),
+                            backgroundColor: AppConstant.appRedColor,
+                            radius: 12.0,
+                          ),
+                          SizedBox(
+                            width: Get.width / 20.0,
+                          ),
+                          CircleAvatar(
+                            child: Text(
+                              "+",
+                              style: TextStyle(
+                                  fontFamily: 'font1',
+                                  color: AppConstant.white),
+                            ),
+                            backgroundColor: AppConstant.appgreenColor,
+                            radius: 12.0,
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+
+          return Container();
+        },
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(bottom: 5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: Get.width / 100.0,
-            ),
+            // SizedBox(
+            //   width: Get.width / 100.0,
+            // ),
             Text(
-              "Totall",
-              style: TextStyle(
-                fontFamily: 'font1',
-                color: AppConstant.appTextColor,
-              ),
-            ),
-            Text(
-              "PKR 12,00",
+              "Totall PKR 12,00",
               style: TextStyle(
                   fontFamily: 'font1',
                   color: AppConstant.appTextColor,

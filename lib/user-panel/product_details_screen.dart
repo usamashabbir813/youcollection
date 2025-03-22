@@ -14,6 +14,7 @@ import 'package:youcollection/models/product-model.dart';
 
 import '../utils/app-constant.dart';
 import '../utils/app-icons-constant.dart';
+import 'cart_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   ProductModel productModel;
@@ -38,6 +39,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           "Product Details",
           style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
+        actions: [
+          GestureDetector(
+            onTap: () => Get.to(() => CartScreen()),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(AppIcon.cart),
+            ),
+          )
+        ],
       ),
       body: Container(
         child: Column(
@@ -171,8 +181,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     if (snapshot.exists) {
       int currentQuantity = snapshot["productQuantity"];
       int updatedQuantity = currentQuantity + quantityIncrement;
-      double totalPrice =
-          double.parse(widget.productModel.fullPrice) * updatedQuantity;
+      double totalPrice = double.parse(widget.productModel.isSale
+              ? widget.productModel.salePrice
+              : widget.productModel.fullPrice) *
+          updatedQuantity;
       await documentReference.update({
         "productQuantity": updatedQuantity,
         "productTotalPrice": totalPrice,
