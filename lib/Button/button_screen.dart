@@ -14,12 +14,18 @@ class ButtonScreen extends StatelessWidget {
         child: Button(
           title: "Click Me",
           onTap: () async {
-            EasyLoading.show(status: 'Loading...');
+            // 1️⃣ Pehle Loading Show
+            EasyLoading.show(status: 'Processing...');
             await Future.delayed(Duration(seconds: 2)); // Simulating API Call
+
+            // 2️⃣ Pehle Loading dismiss NAHI karni
+            EasyLoading.showSuccess("Successfully Added");
+
+            // 3️⃣ Success message 2 second tak rahega, phir dismiss hoga
+            await Future.delayed(Duration(seconds: 2));
             EasyLoading.dismiss();
-            Get.snackbar("Success", "Button Pressed Successfully");
           },
-          icon: Icon(Icons.touch_app, color: Colors.white),
+          icon: Icon(Icons.touch_app, color: Colors.black),
         ),
       ),
     );
@@ -41,12 +47,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        EasyLoading.show(status: 'Processing...');
-        await Future.delayed(Duration(seconds: 2));
-        EasyLoading.dismiss();
-        onTap();
-      },
+      onTap: onTap,
       child: Container(
         height: Get.height / 16,
         width: Get.width / 3,

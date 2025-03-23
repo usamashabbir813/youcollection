@@ -20,6 +20,14 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
   Get.put(GetDeviceTokenController(), permanent: true);
   runApp(const MyApp());
+  configLoading(); // EasyLoading configuration function call
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorType = EasyLoadingIndicatorType.circle
+    ..dismissOnTap = false; // Tap se dismiss na ho
 }
 
 class MyApp extends StatefulWidget {

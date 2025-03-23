@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:youcollection/Button/button_screen.dart';
 import 'package:youcollection/Button/comon_button.dart';
@@ -150,9 +151,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             width: 15.0,
                           ),
                           Button(
-                              title: "Add to Card",
+                              title: "Add to Cart",
                               onTap: () async {
+                                EasyLoading.show(status: 'Processing...');
                                 await checkProductExistence(uId: user!.uid);
+                                EasyLoading.dismiss();
                               }),
                         ],
                       ),
@@ -179,24 +182,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         .doc(widget.productModel.productId.toString());
     DocumentSnapshot snapshot = await documentReference.get();
     if (snapshot.exists) {
-      int currentQuantity = snapshot["productQuantity"];
-      int updatedQuantity = currentQuantity + quantityIncrement;
-      double totalPrice = double.parse(widget.productModel.isSale
-              ? widget.productModel.salePrice
-              : widget.productModel.fullPrice) *
-          updatedQuantity;
-      await documentReference.update({
-        "productQuantity": updatedQuantity,
-        "productTotalPrice": totalPrice,
-      });
-      print("product exists");
+      Get.snackbar("Dear User", "Already added to cart",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppConstant.appRedColor,
+          colorText: AppConstant.appTextColor);
     } else {
-      await FirebaseFirestore.instance.collection("cart").doc(uId).set(
-        {
-          "uId": uId,
-          "createdAt": DateTime.now(),
-        },
-      );
       CartModel cartModel = CartModel(
           productId: widget.productModel.productId,
           categoryId: widget.productModel.categoryId,
@@ -213,7 +203,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           productQuantity: 1,
           productTotalPrice: double.parse(widget.productModel.fullPrice));
       await documentReference.set(cartModel.toMap());
-      print("product added");
+      Get.snackbar("Success", "Successfully Added",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppConstant.appMainColor,
+          colorText: AppConstant.appTextColor);
     }
   }
 }
