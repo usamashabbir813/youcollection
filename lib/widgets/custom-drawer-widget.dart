@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:youcollection/user-panel/all_orders_screen.dart';
 import 'package:youcollection/utils/app-icons-constant.dart';
 
 import '../auth-ui/welcome-screen.dart';
@@ -95,7 +96,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   AppIcon.home,
                   color: AppConstant.appblackColor,
                 ),
-                trailing: Icon(AppIcon.arrow),
+                trailing: Icon(AppIcon.arrow, color: AppConstant.appTextColor),
               ),
             ),
             Padding(
@@ -117,7 +118,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   AppIcon.product,
                   color: AppConstant.appTextColor,
                 ),
-                trailing: Icon(AppIcon.arrow),
+                trailing: Icon(AppIcon.arrow, color: AppConstant.appTextColor),
               ),
             ),
             Padding(
@@ -139,7 +140,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   AppIcon.shopping,
                   color: AppConstant.appTextColor,
                 ),
-                trailing: Icon(AppIcon.arrow),
+                trailing: Icon(
+                  AppIcon.arrow,
+                  color: AppConstant.appTextColor,
+                ),
+                onTap: () {
+                  Get.back();
+                  Get.to(() => AllOrdersScreen());
+                },
               ),
             ),
             Padding(
@@ -161,7 +169,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   AppIcon.help,
                   color: AppConstant.appTextColor,
                 ),
-                trailing: Icon(AppIcon.arrow),
+                trailing: Icon(AppIcon.arrow, color: AppConstant.appTextColor),
               ),
             ),
             Padding(
@@ -190,7 +198,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   AppIcon.logout,
                   color: AppConstant.appTextColor,
                 ),
-                trailing: Icon(AppIcon.arrow),
+                trailing: Icon(AppIcon.arrow, color: AppConstant.appTextColor),
               ),
             ),
           ],

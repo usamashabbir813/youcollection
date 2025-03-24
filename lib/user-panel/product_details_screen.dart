@@ -121,9 +121,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               widget.productModel.isSale == true &&
                                       widget.productModel.salePrice != ""
                                   ? Text(
-                                      "PKR: " + widget.productModel.salePrice)
+                                      "PKR: " + widget.productModel.salePrice,
+                                      style: TextStyle(
+                                          fontFamily: 'font1',
+                                          fontWeight: FontWeight.bold,
+                                          color: AppConstant.appTextColor),
+                                    )
                                   : Text(
-                                      "PKR: " + widget.productModel.fullPrice),
+                                      "PKR: " + widget.productModel.fullPrice,
+                                      style: TextStyle(
+                                          fontFamily: 'font1',
+                                          fontWeight: FontWeight.bold,
+                                          color: AppConstant.appTextColor),
+                                    ),
                             ],
                           )),
                     ),
@@ -133,6 +143,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           alignment: Alignment.topLeft,
                           child: Text(
                             "Category: " + widget.productModel.categoryName,
+                            style: TextStyle(
+                                fontFamily: 'font1',
+                                fontWeight: FontWeight.bold,
+                                color: AppConstant.appTextColor),
                           )),
                     ),
                     Padding(
@@ -182,7 +196,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       {required ProductModel productModel}) async {
     final number = "+923166708248";
     final message =
-        "Hello Techi4u \n i want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
+        "Hello You,Collection\n i want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
 
     final url = 'https://wa.me/$number?text=${Uri.encodeComponent(message)}';
 

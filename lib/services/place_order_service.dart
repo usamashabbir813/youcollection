@@ -20,8 +20,8 @@ void placeOrder({
   required String customerDeviceToken,
 }) async {
   final user = FirebaseAuth.instance.currentUser;
-  // NotificationService notificationService = NotificationService();
   EasyLoading.show(status: "Please Wait..");
+
   if (user != null) {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -32,9 +32,22 @@ void placeOrder({
 
       List<QueryDocumentSnapshot> documents = querySnapshot.docs;
 
+      // Check if cart is empty
+      if (documents.isEmpty) {
+        EasyLoading.dismiss();
+        Get.snackbar(
+          "Cart is Empty",
+          "Please add items to your cart before placing an order.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: AppConstant.appTextColor,
+          duration: Duration(seconds: 5),
+        );
+        return; // Stop execution if cart is empty
+      }
+
       for (var doc in documents) {
         Map<String, dynamic>? data = doc.data() as Map<String, dynamic>;
-
         String orderId = generateOrderId();
 
         OrderModel cartModel = OrderModel(
@@ -60,72 +73,48 @@ void placeOrder({
           customerDeviceToken: customerDeviceToken,
         );
 
-        for (var x = 0; x < documents.length; x++) {
-          await FirebaseFirestore.instance
-              .collection('orders')
-              .doc(user.uid)
-              .set(
-            {
-              'uId': user.uid,
-              'customerName': customerName,
-              'customerPhone': customerPhone,
-              'customerAddress': customerAddress,
-              'customerDeviceToken': customerDeviceToken,
-              'orderStatus': false,
-              'createdAt': DateTime.now()
-            },
-          );
-
-          //upload orders
-          await FirebaseFirestore.instance
-              .collection('orders')
-              .doc(user.uid)
-              .collection('confirmOrders')
-              .doc(orderId)
-              .set(cartModel.toMap());
-
-          //delete cart products
-          await FirebaseFirestore.instance
-              .collection('cart')
-              .doc(user.uid)
-              .collection('cartOrder')
-              .doc(cartModel.productId.toString())
-              .delete()
-              .then((value) {
-            print('Delete cart Products $cartModel.productId.toString()');
-          });
-        }
-        // save notification
         await FirebaseFirestore.instance
-            .collection('notifications')
+            .collection('orders')
             .doc(user.uid)
-            .collection('notifications')
-            .doc()
-            .set(
-          {
-            'title': "Order Successfully placed ${cartModel.productName}",
-            'body': cartModel.productDescription,
-            'isSeen': false,
-            'createdAt': DateTime.now(),
-            'image': cartModel.productImages,
-            'fullPrice': cartModel.fullPrice,
-            'salePrice': cartModel.salePrice,
-            'isSale': cartModel.isSale,
-            'productId': cartModel.productId,
-          },
-        );
+            .set({
+          'uId': user.uid,
+          'customerName': customerName,
+          'customerPhone': customerPhone,
+          'customerAddress': customerAddress,
+          'customerDeviceToken': customerDeviceToken,
+          'orderStatus': false,
+          'createdAt': DateTime.now()
+        });
+
+        // Upload order
+        await FirebaseFirestore.instance
+            .collection('orders')
+            .doc(user.uid)
+            .collection('confirmOrders')
+            .doc(orderId)
+            .set(cartModel.toMap());
+
+        // Delete cart items
+        await FirebaseFirestore.instance
+            .collection('cart')
+            .doc(user.uid)
+            .collection('cartOrder')
+            .doc(cartModel.productId.toString())
+            .delete();
       }
 
-      //sent notification
-      // await SendNotificationService.sendNotificationUsingApi(
-      //   token:
-      //       "eUn8RwbTSwK3bv9j3rKQu8:APA91bHYEje64oVDk6dsLNI77jELGjmh59RB_yPNmlZXzqMoJB76HF7l6qMCPFSez5SqsDKoIdt6k8RDzDRt2IVTchgIigmRD_QmJIxZ1MkSscXknbOmPsZkYsUGToaFZQvvb1c-JFec",
-      //   title: "Order Successfully placed",
-      //   body: "notification body",
-      //   data: {
-      //     "screen": "notification",
-      //   },
-      // );
+      // Save notification
+      await FirebaseFirestore.instance
+          .collection('notifications')
+          .doc(user.uid)
+          .collection('notifications')
+          .doc()
+          .set({
+        'title': "Order Successfully placed",
+        'body': "Your order has been confirmed.",
+        'isSeen': false,
+        'createdAt': DateTime.now(),
+      });
 
       print("Order Confirmed");
       Get.snackbar(
@@ -140,7 +129,8 @@ void placeOrder({
       EasyLoading.dismiss();
       Get.offAll(() => MainScreen());
     } catch (e) {
-      print("error $e");
+      EasyLoading.dismiss();
+      print("Error: $e");
     }
   }
 }
