@@ -19,5 +19,4 @@ class AppIcon {
   static const IconData location = Icons.location_pin;
   static const IconData home = Icons.home;
   static const IconData arrow = Icons.arrow_forward;
-  static const IconData WhatsApp = Icons.wechat;
 }

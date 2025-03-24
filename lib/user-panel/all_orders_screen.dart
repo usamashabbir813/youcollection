@@ -11,6 +11,7 @@ import 'package:image_card/image_card.dart';
 import 'package:youcollection/Button/checkout_button.dart';
 import 'package:youcollection/models/cart_model.dart';
 import 'package:youcollection/models/order-model.dart';
+import 'package:youcollection/user-panel/add_review_screen.dart';
 import 'package:youcollection/user-panel/checkout_screen.dart';
 
 import '../controllers/cart_price_controller.dart';
@@ -105,37 +106,46 @@ class _CartScreenState extends State<AllOrdersScreen> {
                     elevation: 5,
                     color: AppConstant.white,
                     child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: AppConstant.appMainColor,
-                        backgroundImage:
-                            NetworkImage(orderModel.productImages[0]),
-                      ),
-                      title: Text(orderModel.productName),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(orderModel.productTotalPrice.toString()),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          orderModel.status != true
-                              ? Text(
-                                  "Pending...",
+                        leading: CircleAvatar(
+                          backgroundColor: AppConstant.appMainColor,
+                          backgroundImage:
+                              NetworkImage(orderModel.productImages[0]),
+                        ),
+                        title: Text(orderModel.productName),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(orderModel.productTotalPrice.toString()),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            orderModel.status != true
+                                ? Text(
+                                    "Pending..",
+                                    style: TextStyle(color: Colors.green),
+                                  )
+                                : Text(
+                                    "Deliverd",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                          ],
+                        ),
+                        trailing: orderModel.status == true
+                            ? ElevatedButton(
+                                onPressed: () {
+                                  Get.to(() => AddReviewScreen(
+                                        orderModel: orderModel,
+                                      ));
+                                },
+                                child: Text(
+                                  "Review",
                                   style: TextStyle(
+                                      color: AppConstant.appMainColor,
                                       fontFamily: 'font1',
-                                      color: AppConstant.appgreenColor,
                                       fontWeight: FontWeight.bold),
-                                )
-                              : Text(
-                                  "Delivered",
-                                  style: TextStyle(
-                                      fontFamily: 'font1',
-                                      color: AppConstant.appRedColor,
-                                      fontWeight: FontWeight.bold),
-                                )
-                        ],
-                      ),
-                    ),
+                                ),
+                              )
+                            : SizedBox.shrink()),
                   );
                 },
               ),

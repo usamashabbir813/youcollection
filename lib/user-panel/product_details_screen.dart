@@ -196,7 +196,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       {required ProductModel productModel}) async {
     final number = "+923166708248";
     final message =
-        "Hello You,Collection\n i want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
+        "Hello You.Collection\n i want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
 
     final url = 'https://wa.me/$number?text=${Uri.encodeComponent(message)}';
 
