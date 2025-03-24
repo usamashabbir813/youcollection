@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, unused_local_variable, avoid_print
+// ignore_for_file: must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, unused_local_variable, avoid_print, prefer_const_declarations, unnecessary_brace_in_string_interps, deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youcollection/Button/button_screen.dart';
 import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/models/cart_model.dart';
@@ -146,7 +147,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Button(title: "WhatsApp", onTap: () {}),
+                          Button(
+                            title: "WhatsApp",
+                            onTap: () {
+                              sendMessageOnWhatsapp(
+                                productModel: widget.productModel,
+                              );
+                            },
+                          ),
                           SizedBox(
                             width: 15.0,
                           ),
@@ -168,6 +176,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ),
     );
+  }
+
+  static Future<void> sendMessageOnWhatsapp(
+      {required ProductModel productModel}) async {
+    final number = "+923166708248";
+    final message =
+        "Hello Techi4u \n i want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
+
+    final url = 'https://wa.me/$number?text=${Uri.encodeComponent(message)}';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   // check product exist or not
