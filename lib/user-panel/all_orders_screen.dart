@@ -13,9 +13,11 @@ import 'package:youcollection/models/cart_model.dart';
 import 'package:youcollection/models/order-model.dart';
 import 'package:youcollection/user-panel/add_review_screen.dart';
 import 'package:youcollection/user-panel/checkout_screen.dart';
+import 'package:youcollection/user-panel/main_screen.dart';
 
 import '../controllers/cart_price_controller.dart';
 import '../utils/app-constant.dart';
+import '../widgets/custom-drawer-widget.dart';
 
 class AllOrdersScreen extends StatefulWidget {
   const AllOrdersScreen({super.key});
@@ -40,6 +42,13 @@ class _CartScreenState extends State<AllOrdersScreen> {
           style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back), // Back icon
+          onPressed: () {
+            Get.offAll(() =>
+                MainScreen()); // Navigate to MainScreen and remove current screen
+          },
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

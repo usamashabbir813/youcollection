@@ -21,12 +21,12 @@ class AddReviewScreen extends StatefulWidget {
 class _AddReviewScreenState extends State<AddReviewScreen> {
   TextEditingController feedbackController = TextEditingController();
   double productRating = 0;
-  bool hasSubmittedReview = false; // To track if the user already reviewed
+  bool hasSubmittedReview = false;
 
   @override
   void initState() {
     super.initState();
-    _checkIfReviewed(); // Check if the user has already submitted a review
+    _fetchExistingReview();
   }
 
   @override
@@ -35,8 +35,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     super.dispose();
   }
 
-  // Function to check if the user has already submitted a review
-  Future<void> _checkIfReviewed() async {
+  Future<void> _fetchExistingReview() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
@@ -48,9 +47,67 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
         .get();
 
     if (reviewSnapshot.exists) {
+      ReviewModel review =
+          ReviewModel.fromMap(reviewSnapshot.data() as Map<String, dynamic>);
+
+      setState(() {
+        hasSubmittedReview = true;
+        productRating = double.parse(review.rating);
+        feedbackController.text = review.feedback;
+      });
+    }
+  }
+
+  Future<void> _submitReview() async {
+    if (productRating == 0 || feedbackController.text.trim().isEmpty) {
+      Get.snackbar(
+          "Error", "Please provide a rating and feedback before submitting.",
+          backgroundColor: Colors.red,
+          colorText: AppConstant.appTextColor,
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
+    EasyLoading.show(status: "Submitting review...");
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+
+      ReviewModel reviewModel = ReviewModel(
+        customerName: widget.orderModel.customerName,
+        customerPhone: widget.orderModel.customerPhone,
+        customerDeviceToken: widget.orderModel.customerDeviceToken,
+        customerId: widget.orderModel.customerId,
+        feedback: feedbackController.text.trim(),
+        rating: productRating.toString(),
+        createdAt: DateTime.now(),
+      );
+
+      await FirebaseFirestore.instance
+          .collection("products")
+          .doc(widget.orderModel.productId)
+          .collection("reviews")
+          .doc(user.uid)
+          .set(reviewModel.toMap());
+
+      EasyLoading.dismiss();
+
+      Get.snackbar('Success', "Your review has been submitted!",
+          backgroundColor: AppConstant.appMainColor,
+          colorText: AppConstant.appTextColor,
+          snackPosition: SnackPosition.BOTTOM);
+
       setState(() {
         hasSubmittedReview = true;
       });
+
+      Get.to(() => const AllOrdersScreen());
+    } catch (error) {
+      EasyLoading.dismiss();
+      Get.snackbar('Error', "Failed to submit review. Try again later.",
+          backgroundColor: AppConstant.appRedColor,
+          colorText: AppConstant.appTextColor,
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -59,10 +116,10 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     return Scaffold(
       backgroundColor: AppConstant.backgroundColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppConstant.appTextColor),
+        iconTheme: const IconThemeData(color: AppConstant.appTextColor),
         backgroundColor: AppConstant.appMainColor,
         title: const Text(
-          "Add Reviews",
+          "Add Review",
           style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
         centerTitle: true,
@@ -72,16 +129,17 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(height: 20),
             const Text(
-              "Add your rating and reviews",
+              "Rate & Review",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'font1',
+                  fontSize: 18,
                   color: AppConstant.appTextColor),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10),
             RatingBar.builder(
-              initialRating: 0,
+              initialRating: productRating,
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,
@@ -92,90 +150,47 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                 color: Colors.amber,
               ),
               onRatingUpdate: hasSubmittedReview
-                  ? (double
-                      rating) {} // Disable rating update by providing an empty function
-                  : (double rating) {
+                  ? (double value) {}
+                  : (rating) {
                       setState(() {
                         productRating = rating;
                       });
                     },
             ),
-            const SizedBox(height: 20.0),
-            const Text(
-              "Feedback",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'font1',
-                  color: AppConstant.appTextColor),
-            ),
+            const SizedBox(height: 20),
             TextFormField(
               controller: feedbackController,
-              enabled: !hasSubmittedReview, // Disable if already reviewed
+              maxLines: 3,
+              enabled: !hasSubmittedReview,
               decoration: InputDecoration(
-                labelText: hasSubmittedReview
-                    ? "You have already submitted a review"
-                    : "Share your feedback",
-                labelStyle: TextStyle(color: AppConstant.appTextColor),
+                hintText: hasSubmittedReview
+                    ? "Review submitted. Editing disabled."
+                    : "Write your feedback...",
+                hintStyle: TextStyle(color: AppConstant.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: AppConstant.grey),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(
+                      color: AppConstant.appblackColor, width: 1.5),
+                ),
               ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: hasSubmittedReview ||
-                      productRating == 0 ||
-                      feedbackController.text.trim().isEmpty
-                  ? null // Disable button if already submitted or invalid input
-                  : () async {
-                      EasyLoading.show(status: "Please wait...");
-                      try {
-                        User? user = FirebaseAuth.instance.currentUser;
-                        ReviewModel reviewModel = ReviewModel(
-                          customerName: widget.orderModel.customerName,
-                          customerPhone: widget.orderModel.customerPhone,
-                          customerDeviceToken:
-                              widget.orderModel.customerDeviceToken,
-                          customerId: widget.orderModel.customerId,
-                          feedback: feedbackController.text.trim(),
-                          rating: productRating.toString(),
-                          createdAt: DateTime.now(),
-                        );
-
-                        await FirebaseFirestore.instance
-                            .collection("products")
-                            .doc(widget.orderModel.productId)
-                            .collection("reviews")
-                            .doc(user!.uid)
-                            .set(reviewModel.toMap());
-
-                        EasyLoading.dismiss();
-
-                        // Show success message
-                        Get.snackbar(
-                          'Review Submitted',
-                          "Your review has been successfully submitted!",
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: AppConstant.appMainColor,
-                          colorText: AppConstant.appTextColor,
-                          duration: const Duration(seconds: 3),
-                        );
-
-                        // Navigate to All Orders Screen
-                        Get.off(() => AllOrdersScreen());
-                      } catch (error) {
-                        EasyLoading.dismiss();
-                        Get.snackbar(
-                          'Review Submission Failed',
-                          "Something went wrong. Please try again!",
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: Colors.red,
-                          colorText: AppConstant.appTextColor,
-                          duration: const Duration(seconds: 3),
-                        );
-                      }
-                    },
-              child: const Text(
-                "Submit Review",
-                style: TextStyle(
-                    fontFamily: 'font1',
+              onPressed: hasSubmittedReview ? null : _submitReview,
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    hasSubmittedReview ? Colors.grey : AppConstant.appMainColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text(
+                hasSubmittedReview ? "Review Submitted" : "Submit Review",
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppConstant.appTextColor),
               ),
