@@ -7,11 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youcollection/Button/button_screen.dart';
 import 'package:youcollection/Button/comon_button.dart';
+import 'package:youcollection/controllers/rating_controller.dart';
 import 'package:youcollection/models/cart_model.dart';
 import 'package:youcollection/models/product-model.dart';
 
@@ -33,6 +35,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    CalculateProductRatingController calculateProductRatingController = Get.put(
+        CalculateProductRatingController(widget.productModel.productId));
     return Scaffold(
       backgroundColor: AppConstant.backgroundColor,
       appBar: AppBar(
@@ -115,6 +119,57 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ],
                       ),
                     ),
+                    // Review Section with Improved Null Check
+                    Row(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Obx(() {
+                            // Ensuring rating is at least 0.0 to prevent null errors
+                            double rating = calculateProductRatingController
+                                .averageRating.value;
+
+                            return RatingBar.builder(
+                              glow: false,
+                              ignoreGestures: true,
+                              initialRating: rating > 0
+                                  ? rating
+                                  : 0.0, // Avoids negative values
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 25,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 2.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (value) {},
+                            );
+                          }),
+                        ),
+                        SizedBox(
+                            width:
+                                10), // Proper spacing between rating stars and number
+                        Obx(() {
+                          double rating = calculateProductRatingController
+                              .averageRating.value;
+                          return Text(
+                            rating > 0
+                                ? rating.toStringAsFixed(1)
+                                : "No Rating", // Display message if no rating
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -190,92 +245,159 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
             // reveiws
-            FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('products')
-                  .doc(widget.productModel.productId)
-                  .collection('reviews')
-                  .get(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Error"),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(
-                    height: Get.height / 5,
-                    child: Center(
-                      child: CupertinoActivityIndicator(),
-                    ),
-                  );
-                }
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Text(
+                  "Customer Reviews 📝!!",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
+                child: Divider(
+                  color: AppConstant.appMainColor,
+                  thickness: 2.5,
+                ),
+              ),
+            ]),
 
-                if (snapshot.data!.docs.isEmpty) {
-                  return Center(
-                    child: Text("No reviews found!"),
-                  );
-                }
+            Expanded(
+              child: FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('products')
+                    .doc(widget.productModel.productId)
+                    .collection('reviews')
+                    .get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error"),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      height: Get.height / 5,
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    );
+                  }
 
-                if (snapshot.data != null) {
-                  return ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      var data = snapshot.data!.docs[index];
-                      ReviewModel reviewModel = ReviewModel(
-                        customerName: data['customerName'],
-                        customerPhone: data['customerPhone'],
-                        customerDeviceToken: data['customerDeviceToken'],
-                        customerId: data['customerId'],
-                        feedback: data['feedback'],
-                        rating: data['rating'],
-                        createdAt: data['createdAt'],
-                      );
-                      return Card(
-                        elevation: 5,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: AppConstant.appMainColor,
-                            child: Text(
-                              reviewModel.customerName[0],
-                              style: TextStyle(
-                                  fontFamily: 'font',
-                                  color: AppConstant.appTextColor,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          title: Text(reviewModel.customerName),
-                          titleTextStyle: TextStyle(
-                              fontFamily: 'font1',
-                              color: AppConstant.appTextColor,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold),
-                          subtitle: Text(reviewModel.feedback),
-                          subtitleTextStyle: TextStyle(
-                              fontFamily: 'font1',
-                              color: AppConstant.appTextColor,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w500),
-                          trailing: Text(
-                            reviewModel.rating,
-                            style: TextStyle(
-                                fontFamily: 'font1',
-                                color: AppConstant.appTextColor,
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.bold),
-                          ),
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 20),
+                        Icon(Icons.reviews, size: 50, color: Colors.grey),
+                        SizedBox(height: 10),
+                        Text(
+                          "No reviews yet! Be the first to review this product.",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
                         ),
-                      );
-                    },
-                  );
-                }
+                      ],
+                    );
+                  }
 
-                return Container();
-              },
+                  if (snapshot.data != null) {
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: false,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        var data = snapshot.data!.docs[index];
+                        ReviewModel reviewModel = ReviewModel(
+                          customerName: data['customerName'],
+                          customerPhone: data['customerPhone'],
+                          customerDeviceToken: data['customerDeviceToken'],
+                          customerId: data['customerId'],
+                          feedback: data['feedback'],
+                          rating: data['rating'],
+                          createdAt: data['createdAt'],
+                        );
+                        return Card(
+                          elevation: 5,
+                          child: Stack(
+                            children: [
+                              ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: AppConstant.appMainColor,
+                                  child: Text(
+                                    reviewModel.customerName[0],
+                                    style: TextStyle(
+                                        fontFamily: 'font',
+                                        color: AppConstant.appTextColor,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                title: Text(reviewModel.customerName),
+                                titleTextStyle: TextStyle(
+                                    fontFamily: 'font1',
+                                    color: AppConstant.appTextColor,
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
+                                subtitle: Text(reviewModel.feedback),
+                                subtitleTextStyle: TextStyle(
+                                    fontFamily: 'font1',
+                                    color: AppConstant.appTextColor,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500),
+                              ),
+
+                              // ✅ Stars + Rating in the Top Right Corner
+                              Positioned(
+                                top: 5, // ⭐ Adjust top position
+                                right: 10, // ⭐ Adjust right position
+                                child: Row(
+                                  children: [
+                                    RatingBar.builder(
+                                      glow: false,
+                                      ignoreGestures: true,
+                                      initialRating:
+                                          double.parse(reviewModel.rating),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 15, // Small stars
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemBuilder: (context, _) =>
+                                          Icon(Icons.star, color: Colors.amber),
+                                      onRatingUpdate: (value) {},
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            5), // ⭐ Space between stars & number
+                                    Text(
+                                      reviewModel.rating, // Show rating number
+                                      style: TextStyle(
+                                          fontFamily: 'font1',
+                                          color: Colors.black,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+
+                  return Container();
+                },
+              ),
             ),
           ],
         ),
