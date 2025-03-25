@@ -1,47 +1,46 @@
-// ignore_for_file: file_names, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, must_be_immutable
+// ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace, unused_local_variable, unused_import, file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 
+import '../models/category-model.dart';
 import '../models/product-model.dart';
 import '../utils/app-constant.dart';
+import 'all_single_category_products_screen.dart';
 import 'product_details_screen.dart';
 
-class AllSingleCategoryProductsScreen extends StatefulWidget {
-  String categoryId;
-  AllSingleCategoryProductsScreen({super.key, required this.categoryId});
+class AllFlashSaleProductsScreen extends StatefulWidget {
+  const AllFlashSaleProductsScreen({super.key});
 
   @override
-  State<AllSingleCategoryProductsScreen> createState() =>
-      _AllSingleCategoryProductsScreenState();
+  State<AllFlashSaleProductsScreen> createState() =>
+      _AllFlashSaleProductsScreenState();
 }
 
-class _AllSingleCategoryProductsScreenState
-    extends State<AllSingleCategoryProductsScreen> {
+class _AllFlashSaleProductsScreenState
+    extends State<AllFlashSaleProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppConstant.backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppConstant.appMainColor,
         iconTheme: IconThemeData(
           color: AppConstant.appTextColor,
         ),
+        backgroundColor: AppConstant.appMainColor,
         title: Text(
-          'Products',
+          "All Flash Sale Products ",
           style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('products')
-            .where('categoryId', isEqualTo: widget.categoryId)
+            .where("isSale", isEqualTo: true)
             .get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -60,7 +59,7 @@ class _AllSingleCategoryProductsScreenState
 
           if (snapshot.data!.docs.isEmpty) {
             return Center(
-              child: Text("No category found!"),
+              child: Text("No Products found!"),
             );
           }
 
@@ -91,7 +90,6 @@ class _AllSingleCategoryProductsScreenState
                   createdAt: productData['createdAt'],
                   updatedAt: productData['updatedAt'],
                 );
-
                 // CategoriesModel categoriesModel = CategoriesModel(
                 //   categoryId: snapshot.data!.docs[index]['categoryId'],
                 //   categoryImg: snapshot.data!.docs[index]['categoryImg'],
@@ -118,7 +116,13 @@ class _AllSingleCategoryProductsScreenState
                               child: Text(
                                 productModel.productName,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 12.0),
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontFamily: 'font1',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppConstant.appTextColor,
+                                ),
                               ),
                             ),
                           ),
@@ -129,6 +133,16 @@ class _AllSingleCategoryProductsScreenState
                 );
               },
             );
+
+            // Container(
+            //   height: Get.height / 5.0,
+            //   child: ListView.builder(
+            //     itemCount: snapshot.data!.docs.length,
+            //     shrinkWrap: true,
+            //     scrollDirection: Axis.horizontal,
+
+            //   ),
+            // );
           }
 
           return Container();

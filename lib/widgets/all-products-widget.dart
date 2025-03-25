@@ -10,6 +10,7 @@ import 'package:image_card/image_card.dart';
 import '../models/product-model.dart';
 
 import '../user-panel/product_details_screen.dart';
+import '../utils/app-constant.dart';
 
 class AllProductsWidget extends StatelessWidget {
   const AllProductsWidget({super.key});
@@ -97,11 +98,21 @@ class AllProductsWidget extends StatelessWidget {
                               productModel.productName,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: TextStyle(fontSize: 12.0),
+                              style: TextStyle(
+                                  fontFamily: 'font1',
+                                  fontWeight: FontWeight.bold,
+                                  color: AppConstant.appTextColor),
                             ),
                           ),
                           footer: Center(
-                            child: Text("PKR: " + productModel.fullPrice),
+                            child: Text(
+                              "PKR: " + productModel.fullPrice,
+                              style: TextStyle(
+                                  fontFamily: 'font1',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                  color: AppConstant.appTextColor),
+                            ),
                           ),
                         ),
                       ),

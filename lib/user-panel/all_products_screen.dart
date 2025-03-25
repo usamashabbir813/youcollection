@@ -1,28 +1,20 @@
-// ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace, unused_local_variable, unused_import, file_names
+// ignore_for_file: file_names, prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, prefer_interpolation_to_compose_strings
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
+import 'package:youcollection/user-panel/product_details_screen.dart';
 
-import '../models/category-model.dart';
 import '../models/product-model.dart';
 import '../utils/app-constant.dart';
-import 'all-single-category-products-screen.dart';
-import 'product_details_screen.dart';
 
-class AllFlashSaleProductsScreen extends StatefulWidget {
-  const AllFlashSaleProductsScreen({super.key});
+class AllProductsScreen extends StatelessWidget {
+  const AllProductsScreen({super.key});
 
-  @override
-  State<AllFlashSaleProductsScreen> createState() =>
-      _AllFlashSaleProductsScreenState();
-}
-
-class _AllFlashSaleProductsScreenState
-    extends State<AllFlashSaleProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +25,18 @@ class _AllFlashSaleProductsScreenState
         ),
         backgroundColor: AppConstant.appMainColor,
         title: Text(
-          "All Flash Sale Products ",
-          style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
+          'All Products',
+          style: TextStyle(
+            fontFamily: 'font',
+            fontWeight: FontWeight.bold,
+            color: AppConstant.appTextColor,
+          ),
         ),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('products')
-            .where("isSale", isEqualTo: true)
+            .where('isSale', isEqualTo: false)
             .get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -59,7 +55,7 @@ class _AllFlashSaleProductsScreenState
 
           if (snapshot.data!.docs.isEmpty) {
             return Center(
-              child: Text("No Products found!"),
+              child: Text("No products found!"),
             );
           }
 
@@ -70,9 +66,9 @@ class _AllFlashSaleProductsScreenState
               physics: BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 3,
-                crossAxisSpacing: 3,
-                childAspectRatio: 1.19,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                childAspectRatio: 0.80,
               ),
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
@@ -90,6 +86,7 @@ class _AllFlashSaleProductsScreenState
                   createdAt: productData['createdAt'],
                   updatedAt: productData['updatedAt'],
                 );
+
                 // CategoriesModel categoriesModel = CategoriesModel(
                 //   categoryId: snapshot.data!.docs[index]['categoryId'],
                 //   categoryImg: snapshot.data!.docs[index]['categoryImg'],
@@ -108,7 +105,7 @@ class _AllFlashSaleProductsScreenState
                           child: FillImageCard(
                             borderRadius: 20.0,
                             width: Get.width / 2.3,
-                            heightImage: Get.height / 10,
+                            heightImage: Get.height / 6,
                             imageProvider: CachedNetworkImageProvider(
                               productModel.productImages[0],
                             ),
@@ -117,7 +114,19 @@ class _AllFlashSaleProductsScreenState
                                 productModel.productName,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
-                                style: TextStyle(fontSize: 12.0),
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontFamily: 'font1',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            footer: Center(
+                              child: Text(
+                                "PKR: " + productModel.fullPrice,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.0,
+                                    fontFamily: 'font1'),
                               ),
                             ),
                           ),
@@ -128,16 +137,6 @@ class _AllFlashSaleProductsScreenState
                 );
               },
             );
-
-            // Container(
-            //   height: Get.height / 5.0,
-            //   child: ListView.builder(
-            //     itemCount: snapshot.data!.docs.length,
-            //     shrinkWrap: true,
-            //     scrollDirection: Axis.horizontal,
-
-            //   ),
-            // );
           }
 
           return Container();

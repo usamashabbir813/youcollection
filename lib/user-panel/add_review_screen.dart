@@ -163,20 +163,34 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
               maxLines: 3,
               enabled: !hasSubmittedReview,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey.shade100,
                 hintText: hasSubmittedReview
                     ? "Review submitted. Editing disabled."
                     : "Write your feedback...",
                 hintStyle: TextStyle(color: AppConstant.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: AppConstant.grey),
+                  borderSide: BorderSide(color: AppConstant.grey),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                      color: AppConstant.appblackColor, width: 1.5),
+                  borderSide:
+                      BorderSide(color: AppConstant.appblackColor, width: 1.5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide:
+                      BorderSide(color: AppConstant.appMainColor, width: 2),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide:
+                      BorderSide(color: AppConstant.appRedColor, width: 1.5),
                 ),
               ),
+              style: TextStyle(color: Colors.black),
+              cursorColor: Colors.deepPurple,
             ),
             const SizedBox(height: 20),
             ElevatedButton(

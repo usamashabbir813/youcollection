@@ -1,38 +1,47 @@
-// ignore_for_file: file_names, prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, prefer_interpolation_to_compose_strings
+// ignore_for_file: file_names, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
-import 'package:youcollection/user-panel/product_details_screen.dart';
 
 import '../models/product-model.dart';
 import '../utils/app-constant.dart';
+import 'product_details_screen.dart';
 
-class AllProductsScreen extends StatelessWidget {
-  const AllProductsScreen({super.key});
+class AllSingleCategoryProductsScreen extends StatefulWidget {
+  String categoryId;
+  AllSingleCategoryProductsScreen({super.key, required this.categoryId});
 
+  @override
+  State<AllSingleCategoryProductsScreen> createState() =>
+      _AllSingleCategoryProductsScreenState();
+}
+
+class _AllSingleCategoryProductsScreenState
+    extends State<AllSingleCategoryProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppConstant.backgroundColor,
       appBar: AppBar(
+        backgroundColor: AppConstant.appMainColor,
         iconTheme: IconThemeData(
           color: AppConstant.appTextColor,
         ),
-        backgroundColor: AppConstant.appMainColor,
         title: Text(
-          'All Products',
-          style: TextStyle(color: AppConstant.appTextColor),
+          'Products',
+          style: TextStyle(fontFamily: 'font', color: AppConstant.appTextColor),
         ),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('products')
-            .where('isSale', isEqualTo: false)
+            .where('categoryId', isEqualTo: widget.categoryId)
             .get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -51,7 +60,7 @@ class AllProductsScreen extends StatelessWidget {
 
           if (snapshot.data!.docs.isEmpty) {
             return Center(
-              child: Text("No products found!"),
+              child: Text("No category found!"),
             );
           }
 
@@ -62,9 +71,9 @@ class AllProductsScreen extends StatelessWidget {
               physics: BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                childAspectRatio: 0.80,
+                mainAxisSpacing: 3,
+                crossAxisSpacing: 3,
+                childAspectRatio: 1.19,
               ),
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
@@ -101,7 +110,7 @@ class AllProductsScreen extends StatelessWidget {
                           child: FillImageCard(
                             borderRadius: 20.0,
                             width: Get.width / 2.3,
-                            heightImage: Get.height / 6,
+                            heightImage: Get.height / 10,
                             imageProvider: CachedNetworkImageProvider(
                               productModel.productImages[0],
                             ),
@@ -109,12 +118,11 @@ class AllProductsScreen extends StatelessWidget {
                               child: Text(
                                 productModel.productName,
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: TextStyle(fontSize: 12.0),
+                                style: TextStyle(
+                                    fontFamily: 'font1',
+                                    fontWeight: FontWeight.bold,
+                                    color: AppConstant.appTextColor),
                               ),
-                            ),
-                            footer: Center(
-                              child: Text("PKR: " + productModel.fullPrice),
                             ),
                           ),
                         ),

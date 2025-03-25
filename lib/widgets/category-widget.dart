@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 
 import '../models/category-model.dart';
-import '../user-panel/all-single-category-products-screen.dart';
+import '../user-panel/all_single_category_products_screen.dart';
+import '../utils/app-constant.dart';
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget({super.key});
@@ -71,7 +72,12 @@ class CategoriesWidget extends StatelessWidget {
                             title: Center(
                               child: Text(
                                 categoriesModel.categoryName,
-                                style: TextStyle(fontSize: 12.0),
+                                style: TextStyle(
+                                  fontFamily: 'font1',
+                                  fontSize: 12.0,
+                                  color: AppConstant.appTextColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),

@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
-import 'package:youcollection/user-panel/all-single-category-products-screen.dart';
+import 'package:youcollection/user-panel/all_single_category_products_screen.dart';
 import '../models/category-model.dart';
 import '../utils/app-constant.dart';
 
@@ -94,7 +94,11 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
                             title: Center(
                               child: Text(
                                 categoriesModel.categoryName,
-                                style: TextStyle(fontSize: 12.0),
+                                style: TextStyle(
+                                  fontFamily: 'font1',
+                                  fontWeight: FontWeight.bold,
+                                  color: AppConstant.appTextColor,
+                                ),
                               ),
                             ),
                           ),

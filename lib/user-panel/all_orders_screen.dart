@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
@@ -141,17 +142,33 @@ class _CartScreenState extends State<AllOrdersScreen> {
                         ),
                         trailing: orderModel.status == true
                             ? ElevatedButton(
-                                onPressed: () {
-                                  Get.to(() => AddReviewScreen(
-                                        orderModel: orderModel,
-                                      ));
+                                onPressed: () async {
+                                  await Get.to(() => AddReviewScreen(
+                                      orderModel:
+                                          orderModel)); // Wait for navigation to complete
+
+                                  // Show Snackbar after returning
+                                  Get.snackbar(
+                                    "Review",
+                                    "Thanks for your feedback!",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: AppConstant.appMainColor,
+                                    colorText: AppConstant.appTextColor,
+                                  );
                                 },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppConstant.appMainColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
                                 child: Text(
                                   "Review",
                                   style: TextStyle(
-                                      color: AppConstant.appMainColor,
-                                      fontFamily: 'font1',
-                                      fontWeight: FontWeight.bold),
+                                    color: AppConstant.appTextColor,
+                                    fontFamily: 'font1',
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               )
                             : SizedBox.shrink()),

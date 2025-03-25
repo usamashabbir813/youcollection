@@ -92,14 +92,22 @@ class FlashSaleWidget extends StatelessWidget {
                               child: Text(
                                 productModel.productName,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 10.0),
+                                style: TextStyle(
+                                    fontFamily: 'font1',
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppConstant.appTextColor),
                               ),
                             ),
                             footer: Row(
                               children: [
                                 Text(
-                                  "Rs ${productModel.salePrice}",
-                                  style: TextStyle(fontSize: 10.0),
+                                  "PKR: ${productModel.salePrice}",
+                                  style: TextStyle(
+                                      fontFamily: 'font1',
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppConstant.appTextColor),
                                 ),
                                 SizedBox(
                                   width: 2.0,
@@ -107,7 +115,8 @@ class FlashSaleWidget extends StatelessWidget {
                                 Text(
                                   "${productModel.fullPrice}",
                                   style: TextStyle(
-                                    fontSize: 10.0,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
                                     color: AppConstant.appMainColor,
                                     decoration: TextDecoration.lineThrough,
                                   ),

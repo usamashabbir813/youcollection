@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, unused_local_variable, avoid_print, prefer_const_declarations, unnecessary_brace_in_string_interps, deprecated_member_use
+// ignore_for_file: must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_import, prefer_interpolation_to_compose_strings, unused_import, unused_local_variable, avoid_print, prefer_const_declarations, unnecessary_brace_in_string_interps, deprecated_member_use, sized_box_for_whitespace
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -8,12 +8,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:image_card/image_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youcollection/Button/button_screen.dart';
 import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/models/cart_model.dart';
 import 'package:youcollection/models/product-model.dart';
 
+import '../models/category-model.dart';
+import '../models/review_model.dart';
 import '../utils/app-constant.dart';
 import '../utils/app-icons-constant.dart';
 import 'cart_screen.dart';
@@ -181,11 +184,99 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               }),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
+            // reveiws
+            FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('products')
+                  .doc(widget.productModel.productId)
+                  .collection('reviews')
+                  .get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text("Error"),
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    height: Get.height / 5,
+                    child: Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  );
+                }
+
+                if (snapshot.data!.docs.isEmpty) {
+                  return Center(
+                    child: Text("No reviews found!"),
+                  );
+                }
+
+                if (snapshot.data != null) {
+                  return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      var data = snapshot.data!.docs[index];
+                      ReviewModel reviewModel = ReviewModel(
+                        customerName: data['customerName'],
+                        customerPhone: data['customerPhone'],
+                        customerDeviceToken: data['customerDeviceToken'],
+                        customerId: data['customerId'],
+                        feedback: data['feedback'],
+                        rating: data['rating'],
+                        createdAt: data['createdAt'],
+                      );
+                      return Card(
+                        elevation: 5,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: AppConstant.appMainColor,
+                            child: Text(
+                              reviewModel.customerName[0],
+                              style: TextStyle(
+                                  fontFamily: 'font',
+                                  color: AppConstant.appTextColor,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          title: Text(reviewModel.customerName),
+                          titleTextStyle: TextStyle(
+                              fontFamily: 'font1',
+                              color: AppConstant.appTextColor,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold),
+                          subtitle: Text(reviewModel.feedback),
+                          subtitleTextStyle: TextStyle(
+                              fontFamily: 'font1',
+                              color: AppConstant.appTextColor,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w500),
+                          trailing: Text(
+                            reviewModel.rating,
+                            style: TextStyle(
+                                fontFamily: 'font1',
+                                color: AppConstant.appTextColor,
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+
+                return Container();
+              },
+            ),
           ],
         ),
       ),
