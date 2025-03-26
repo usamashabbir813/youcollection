@@ -292,17 +292,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return Column(
-                      children: [
-                        SizedBox(height: 20),
-                        Icon(Icons.reviews, size: 50, color: Colors.grey),
-                        SizedBox(height: 10),
-                        Text(
-                          "No reviews yet! Be the first to review this product.",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20),
+                          Icon(Icons.reviews, size: 40, color: Colors.grey),
+                          Text(
+                            "No reviews yet! Be the first to review this product.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     );
                   }
 

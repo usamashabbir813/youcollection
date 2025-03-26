@@ -115,7 +115,7 @@ class FlashSaleWidget extends StatelessWidget {
                                 Text(
                                   "${productModel.fullPrice}",
                                   style: TextStyle(
-                                    fontSize: 12.0,
+                                    fontSize: 10.0,
                                     fontWeight: FontWeight.bold,
                                     color: AppConstant.appMainColor,
                                     decoration: TextDecoration.lineThrough,
