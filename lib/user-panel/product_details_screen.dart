@@ -12,10 +12,14 @@ import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youcollection/Button/button_screen.dart';
+import 'package:youcollection/Button/buy_now.dart';
+import 'package:youcollection/Button/checkout_button.dart';
 import 'package:youcollection/Button/comon_button.dart';
 import 'package:youcollection/controllers/rating_controller.dart';
 import 'package:youcollection/models/cart_model.dart';
 import 'package:youcollection/models/product-model.dart';
+import 'package:youcollection/user-panel/checkout_screen.dart';
+import 'package:youcollection/user-panel/payment_screen.dart';
 
 import '../models/category-model.dart';
 import '../models/review_model.dart';
@@ -111,14 +115,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               widget.productModel.productName,
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis, // Overflow
+                              overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
                           ),
-                          Icon(AppIcon.favourite),
+                          Column(
+                            children: [
+                              Icon(AppIcon.favourite), // ❤️ Favorite Icon
+                              SizedBox(height: 5), // تھوڑا Space
+                              BuyNowButton(
+                                  title: "Buy Now",
+                                  onTap: () {
+                                    Get.to(() => PaymentScreen());
+                                  })
+                            ],
+                          ),
                         ],
                       ),
                     ),
+
                     // Review Section with Improved Null Check
                     Row(
                       children: [

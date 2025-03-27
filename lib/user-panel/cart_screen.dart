@@ -11,6 +11,7 @@ import 'package:image_card/image_card.dart';
 import 'package:youcollection/Button/checkout_button.dart';
 import 'package:youcollection/models/cart_model.dart';
 import 'package:youcollection/user-panel/checkout_screen.dart';
+import 'package:youcollection/user-panel/payment_screen.dart';
 
 import '../controllers/cart_price_controller.dart';
 import '../utils/app-constant.dart';
@@ -218,9 +219,9 @@ class _CartScreenState extends State<CartScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CheckOutButton(
-                  title: "Checkout",
+                  title: "PayNow",
                   onTap: () {
-                    Get.to(() => CheckOutScreen());
+                    Get.to(() => PaymentScreen());
                   }),
             )
           ],

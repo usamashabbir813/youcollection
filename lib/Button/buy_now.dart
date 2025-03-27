@@ -1,17 +1,27 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youcollection/utils/app-constant.dart';
 
-class CheckOutButton extends StatelessWidget {
+class BuyNowButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-  final Widget? icon; //   optional
+  final Widget? icon; // Optional Icon
+  final double height;
+  final double width;
+  final Color? color;
+  final Color? textColor;
 
-  const CheckOutButton({
+  const BuyNowButton({
     super.key,
     required this.title,
     required this.onTap,
-    this.icon, // optional
+    this.icon,
+    this.height = 30, // Default height
+    this.width = 90, // Default width
+    this.color, // Optional button color
+    this.textColor, // Optional text color
   });
 
   @override
@@ -19,24 +29,25 @@ class CheckOutButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: Get.height / 18,
-        width: Get.width / 2.3,
+        height: height,
+        width: width,
+        padding: EdgeInsets.symmetric(horizontal: 12), // Better padding
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: AppConstant.appMainColor,
-          borderRadius: BorderRadius.circular(30),
+          color: color ?? AppConstant.appMainColor,
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: Colors.black
                   .withOpacity(0.2), // Shadow color with transparency
-              spreadRadius: 1, // How much the shadow spreads
-              blurRadius: 6, // Blur effect
+              spreadRadius: 1,
+              blurRadius: 6,
               offset: Offset(0, 3), // Moves the shadow downward
             ),
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min, // Wrap content
           children: [
             if (icon != null) ...[
               icon!,
@@ -45,10 +56,10 @@ class CheckOutButton extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+                fontSize: 12, // Better readability
+                fontWeight: FontWeight.bold,
                 fontFamily: 'font1',
-                color: AppConstant.appTextColor,
+                color: textColor ?? AppConstant.appTextColor,
               ),
             ),
           ],
